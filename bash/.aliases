@@ -4,8 +4,12 @@ alias grep='grep --color=auto'
 alias la='ls -al'
 alias ll='_(){ la --color=never $* | less; }; _'
 
-alias ..='cd ..'
-alias ...='cd ../..'
+# Easier navigation: .., ..., ~ and -
+alias ..="cd .."
+alias ...="cd ../.."
+alias ~="cd ~"
+alias -- -="cd -"
+
 alias update='sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y'
 alias s='sudo'
 alias sai='sudo apt install'
@@ -14,9 +18,9 @@ alias mkcd='_(){ mkdir $1; cd $1; }; _'
 alias du='du -ach | sort -h'
 alias fhere='find . -name'
 alias wget='wget -c'
-alias myip='curl https://api.ipify.org; echo'
-alias myip6='curl https://api6.ipify.org; echo'
-
+alias myip='curl -s https://api64.ipify.org; echo'
+alias myip4='curl -s https://api.ipify.org; echo'
+alias myip6='curl -s https://api6.ipify.org; echo'
 
 # personal laptop
 
