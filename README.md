@@ -6,7 +6,7 @@ This repository consists of my own common dotfiles for a couple of configuration
 
 ```bash
 apt update
-apt upgrad -y
+apt upgrade -y
 apt install stow git
 ```
 
