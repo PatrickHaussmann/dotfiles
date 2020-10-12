@@ -22,6 +22,17 @@ To update submodules:
 git submodule update --recursive --remote
 ```
 
+To install stow:
+
+The preferred method is to use your systems package manager to install stow.
+
+If, for whatever reason, that isn't possible, the the `install_stow.sh` command
+will install stow entirely in userspace. Eg:
+```bash
+# From the dotfiles dir
+./install_stow.sh
+```
+
 Back up/delete any conflicts, if a system has files in place already.
 The stow dry run command will produce errors if files would conflict:
 
