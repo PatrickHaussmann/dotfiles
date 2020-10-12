@@ -7,6 +7,8 @@
 # Aliases
 . $HOME/.aliases
 
+# Functions
+. $HOME/.functions
 
 
 
