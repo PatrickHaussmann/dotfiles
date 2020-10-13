@@ -22,7 +22,6 @@ alias myip='curl -s https://api64.ipify.org; echo'
 alias myip4='curl -s https://api.ipify.org; echo'
 alias myip6='curl -s https://api6.ipify.org; echo'
 
-# personal laptop
+alias m='LC_ALL="en_US.UTF-8" mosh --ssh="ssh -p 4863"'
 
 alias serve='python3 -m http.server --bind 127.0.0.1 4000'
-alias picrename='_(){  MY_PATH=$(readlink -nf $1); fd '.' -e jpeg "$MY_PATH" -x mv {} {.}.jpg ;  exiftool -P "-filename<FileModifyDate" "-filename<DateTimeOriginal" "-filename<CreateDate" -d "%Y%m%d-%H%M%S%%-c.%%le" -ext jpg -ext png -ext nef -ext mov -ext mp4 -ext lrv -r "$MY_PATH" ; fd '.' -e lrv "$MY_PATH" -x mv {} {.}.lrv.mp4 ; }; _'
