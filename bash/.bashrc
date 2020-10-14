@@ -36,6 +36,10 @@ HISTFILESIZE=2000
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# Disable completion when the input buffer is empty.  i.e. Hitting tab
+# and waiting a long time for bash to expand all of $PATH.
+shopt -s no_empty_cmd_completion
+
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
