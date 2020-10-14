@@ -96,7 +96,7 @@ if [[ "${SSH_TTY}" ]]; then
   hostStyle="${bold}${red}";
 fi;
 
-exitstatus() {
+prompt_status() {
   if [ "$?" == "0" ]; then
     echo -e "${green}";
   else
@@ -105,7 +105,7 @@ exitstatus() {
 }
 
 # Set the terminal title to the current working directory.
-PS1="\$(exitstatus)→ \[${reset}\]"
+PS1="\$(prompt_status)→ \[${reset}\]"
 PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\]@";
 PS1+="\[${hostStyle}\]\h\[${reset}\]"; # host
