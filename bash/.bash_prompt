@@ -46,11 +46,11 @@ prompt_git() {
     # Otherwise, just give up.
     branchName="$(git symbolic-ref --quiet --short HEAD 2> /dev/null || \
       git rev-parse --short HEAD 2> /dev/null || \
-      echo '(unknown)')";
+      echo '--unknown--')";
 
     [ -n "${s}" ] && s="[${s}]";
 
-    echo -e "${1}${branchName}${2}${s}";
+    echo -e " ${1}${branchName}${2}${s}";
   else
     return;
   fi;
@@ -103,7 +103,7 @@ PS1+="\[${hostStyle}\]\h\[${reset}\]"; # host
 PS1+="\[${white}\]:";
 PS1+="\[${bold}${green}\]\w\[${reset}\]"; # working directory
 PS1+="\$(prompt_git \"\[${violet}\](\" \")\[${blue}\]\")"; # Git repository details
-PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
+PS1+="\[${white}\] \$ \[${reset}\]"; # `$` (and reset color)
 export PS1;
 
 PS2="\[${yellow}\]→ \[${reset}\]";
