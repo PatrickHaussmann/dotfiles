@@ -96,14 +96,23 @@ if [[ "${SSH_TTY}" ]]; then
   hostStyle="${bold}${red}";
 fi;
 
+exitstatus() {
+  if [ "$?" == "0" ]; then
+    echo -e "${green}";
+  else
+    echo -e "${red}";
+  fi
+}
+
 # Set the terminal title to the current working directory.
-PS1="\[${userStyle}\]\u"; # username
+PS1="\$(exitstatus)→ \[${reset}\]"
+PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\]@";
 PS1+="\[${hostStyle}\]\h\[${reset}\]"; # host
 PS1+="\[${white}\]:";
 PS1+="\[${bold}${green}\]\w\[${reset}\]"; # working directory
 PS1+="\$(prompt_git \"\[${violet}\](\" \")\[${blue}\]\")"; # Git repository details
-PS1+="\[${white}\] \$ \[${reset}\]"; # `$` (and reset color)
+PS1+="\[${white}\]\$ \[${reset}\]"; # `$` (and reset color)
 export PS1;
 
 PS2="\[${yellow}\]→ \[${reset}\]";
