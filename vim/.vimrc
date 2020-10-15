@@ -83,6 +83,12 @@ set mouse=a
 set  timeoutlen=1000 " time out for key codes
 set ttimeoutlen=20   " wait up to 20ms after Esc for special key
 
+" Use english for spellchecking, but don't spellcheck by default
+if version >= 700
+set spl=en spell
+set nospell
+endif
+
 " Plugins 
 " Load all plugins
 packloadall
