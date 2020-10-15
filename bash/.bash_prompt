@@ -105,7 +105,7 @@ prompt_status() {
 }
 
 # Set the terminal title to the current working directory.
-PS1="\$(prompt_status)→ \[${reset}\]";
+PS1="\[\$(prompt_status)\]→ \[${reset}\]";
 PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\]@";
 PS1+="\[${hostStyle}\]\h\[${reset}\]"; # host
