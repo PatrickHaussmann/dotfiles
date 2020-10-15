@@ -73,7 +73,8 @@ nmap <silent> <leader>s :set nolist!<CR>
 
 set visualbell
 
-
+" display right colors in tmux
+set background=dark
 
 " Plugins 
 " Load all plugins
