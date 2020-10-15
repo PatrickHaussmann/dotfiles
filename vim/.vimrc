@@ -79,6 +79,10 @@ highlight LineNr ctermfg=grey
 " enables mouse in all modes (mouse scrolling in vim instead of tmux)
 set mouse=a
 
+" excape delay
+set  timeoutlen=1000 " time out for key codes
+set ttimeoutlen=20   " wait up to 20ms after Esc for special key
+
 " Plugins 
 " Load all plugins
 packloadall
