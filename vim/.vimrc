@@ -76,6 +76,9 @@ set background=dark
 " line numbers in grey 
 highlight LineNr ctermfg=grey
 
+" enables mouse in all modes (mouse scrolling in vim instead of tmux)
+set mouse=a
+
 " Plugins 
 " Load all plugins
 packloadall
