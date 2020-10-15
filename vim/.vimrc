@@ -76,6 +76,9 @@ set visualbell
 " display right colors in tmux
 set background=dark
 
+" line numbers in grey 
+highlight LineNr ctermfg=grey
+
 " Plugins 
 " Load all plugins
 packloadall
