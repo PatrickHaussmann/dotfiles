@@ -65,8 +65,8 @@ set incsearch " ...dynamically as they are typed.
 
 " Catch trailing whitespace
 " The following will make tabs and trailing spaces visible when requested:
-set listchars=tab:>-,trail:·,eol:$
-nmap <silent> <leader>s :set nolist!<CR>
+set list
+set listchars=tab:>-,trail:·,extends:>,precedes:<
 
 set visualbell
 
