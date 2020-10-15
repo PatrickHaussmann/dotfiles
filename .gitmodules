@@ -1,0 +1,3 @@
+[submodule "vim/.vim/pack/plugins/start/vim-prettier"]
+	path = vim/.vim/pack/plugins/start/vim-prettier
+	url = https://github.com/prettier/vim-prettier
