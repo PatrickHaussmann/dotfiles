@@ -13,13 +13,7 @@
 # Prompt
 . $HOME/.bash_prompt
 
-
-
-
-
-# ubuntu defaults
-
-
+PROMPT_COMMAND='history -a'
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
