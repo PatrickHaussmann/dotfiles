@@ -11,6 +11,7 @@ set showmode                    "Show current mode down the bottom
 set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
+set whichwrap+=<,>,[,]          "wrap to the next/previous line: (left,right) cursor keys in normal mode and insert mode respectively
 
 " turn on syntax highlighting
 syntax on
