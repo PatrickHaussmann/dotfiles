@@ -12,6 +12,7 @@ set gcr=a:blinkon0              "Disable cursor blink
 set visualbell                  "No sounds
 set autoread                    "Reload files changed outside vim
 set whichwrap+=<,>,[,]          "wrap to the next/previous line: (left,right) cursor keys in normal mode and insert mode respectively
+set wrap linebreak              "soft wrap  ->  use gj and gk to move by screen lines.
 
 " turn on syntax highlighting
 syntax on
