@@ -29,8 +29,12 @@ The preferred method is to use your systems package manager to install stow.
 If, for whatever reason, that isn't possible, the the `install_stow.sh` command
 will install stow entirely in userspace. Eg:
 ```bash
-# From the dotfiles dir
-./install_stow.sh
+# From the HOME dir
+
+# for each file:
+ln -s dotfiles/tmux/.tmux.conf .
+ln -s dotfiles/bash/.bshrc .
+...
 ```
 
 Back up/delete any conflicts, if a system has files in place already.
