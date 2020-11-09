@@ -58,3 +58,10 @@ To reload any changes to the dotfiles repo
 for x in */; do stow -R $x; done
 ```
 
+------
+
+To change from https to ssh remote
+```bash
+git remote rename origin https-origin
+it remote add origin git@github.com:PatrickHaussmann/dotfiles.git
+```
