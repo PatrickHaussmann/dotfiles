@@ -63,5 +63,5 @@ for x in */; do stow -R $x; done
 To change from https to ssh remote
 ```bash
 git remote rename origin https-origin
-it remote add origin git@github.com:PatrickHaussmann/dotfiles.git
+git remote add origin git@github.com:PatrickHaussmann/dotfiles.git
 ```
