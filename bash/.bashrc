@@ -5,10 +5,10 @@
 [[ $- != *i* ]] && return
 
 # Aliases
-. $HOME/.aliases
+. $HOME/.bash_aliases
 
 # Functions
-. $HOME/.functions
+. $HOME/.bash_functions
 
 # Prompt
 . $HOME/.bash_prompt

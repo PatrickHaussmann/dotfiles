@@ -26,5 +26,8 @@ alias myip6='curl -s https://api6.ipify.org; echo'
 alias m='LC_ALL="en_US.UTF-8" mosh --ssh="ssh -p 4863"'
 alias python='python3'
 alias pip='pip3'
-alias serve='python -m http.server --bind 127.0.0.1 4000'
+#alias serve='python -m http.server --bind 127.0.0.1 4000'
+
+alias mirror='wget -e robots=off -mkEpnp -w 0.5 --random-wait'
+alias unsplash='bash ~/dotfiles/bash/.bash_unsplash'
 
