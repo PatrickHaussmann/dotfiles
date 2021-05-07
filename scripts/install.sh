@@ -23,6 +23,10 @@ install git
 install htop
 install vim
 install wget
+install npm
+install nodejs
+
+yes | npm install -g serve vercel prettier
 
 # Run all scripts in programs/
 for f in programs/*.sh; do bash "$f" -H; done

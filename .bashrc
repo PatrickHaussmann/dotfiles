@@ -4,10 +4,12 @@
 
 # Aliases
 
-
-alias ls='ls -h --color=auto'
+alias ls='ls -hF --color=auto'
 alias grep='grep --color=auto'
-alias la='ls -al'
+alias cp='cp -v'
+alias la='ls -Al'
+alias mv='mv -v'
+alias mkdir='mkdir -v'
 alias ll='_(){ la --color=never $* | less; }; _'
 
 # Easier navigation: .., ..., ~ and -
@@ -29,13 +31,13 @@ alias myip='curl -s https://api64.ipify.org; echo'
 alias myip4='curl -s https://api.ipify.org; echo'
 alias myip6='curl -s https://api6.ipify.org; echo'
 
-alias m='LC_ALL="en_US.UTF-8" mosh --ssh="ssh -p 4863"'
+alias mosh='LC_ALL="en_US.UTF-8" mosh'
 alias python='python3'
 alias pip='pip3'
-#alias serve='python -m http.server --bind 127.0.0.1 4000'
+alias weather='curl v2.wttr.in/'
 
 alias mirror='wget -e robots=off -mkEpnp -w 0.5 --random-wait'
-alias unsplash='bash ~/dotfiles/bash/.bash_unsplash'
+#alias unsplash='bash ~/dotfiles/bash/.bash_unsplash'
 
 
 
@@ -93,6 +95,9 @@ function picrename() {
      fdfind '.' -e lrv "$MY_PATH" -x mv {} {.}.lrv.mp4
 }
 
+if [ -f ~/.git-completion.bash ]; then
+    . ~/.git-completion.bash
+fi
 
 PROMPT_COMMAND='history -a'
 
