@@ -81,13 +81,6 @@ function repeat()
     done
 }
 
-# Compile tex file containing svg
-pptex () { # Pretty Print laTEX
-    pdflatex --halt-on-error -output-directory="out" \
-        $1 1> /dev/null
-    [[ $? = 0 ]] || echo 'grep Error out/${$1/tex/log}'
-}
-
 function picrename() {
      MY_PATH=$(readlink -nf $1)
      fdfind '.' -e jpeg "$MY_PATH" -x mv {} {.}.jpg
