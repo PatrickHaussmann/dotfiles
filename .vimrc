@@ -90,7 +90,3 @@ if version >= 700
 set spl=en spell
 set nospell
 endif
-
-" Plugins 
-" Load all plugins
-packloadall
