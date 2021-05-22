@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# https://docs.docker.com/engine/install/ubuntu/
+# https://caddyserver.com/docs/install#debian-ubuntu-raspbian
 
 echo "Installing Caddy"
 
