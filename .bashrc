@@ -92,6 +92,8 @@ if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
+export PATH="$HOME/bin:$PATH"
+
 PROMPT_COMMAND='history -a'
 
 # don't put duplicate lines or lines starting with space in the history.
