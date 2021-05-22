@@ -24,6 +24,7 @@ install htop
 install vim
 install mosh
 install wget
+install tmux
 
 
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
