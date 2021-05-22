@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Copy dotfiles
-bash ./copy.sh
+# Link dotfiles
+bash ./ln.sh
 
 # Update Ubuntu and get standard repository programs
 sudo apt update && sudo apt full-upgrade -y
