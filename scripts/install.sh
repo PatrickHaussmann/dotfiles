@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Link dotfiles
-bash ./ln.sh
+#bash ./ln.sh
 
 # Update Ubuntu and get standard repository programs
 sudo apt update && sudo apt full-upgrade -y
@@ -26,10 +26,8 @@ install mosh
 install wget
 install tmux
 
-
 curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
 sudo apt-get install -y nodejs
-
 
 yes | npm install -g serve vercel prettier
 
@@ -47,3 +45,4 @@ echo "
 |  _  |  __/ | | (_) |_|
 |_| |_|\___|_|_|\___/(_)
 "
+
