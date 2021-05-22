@@ -39,6 +39,11 @@ cd ~
 source .bashrc
 ```
 
+To change from https to ssh remote
+```sh
+git remote rename origin https-origin
+git remote add origin git@github.com:PatrickHaussmann/dotfiles.git
+```
 
 ---
 
