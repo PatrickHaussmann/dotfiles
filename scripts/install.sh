@@ -22,6 +22,7 @@ install curl
 install git
 install htop
 install vim
+install mosh
 install wget
 install npm
 install nodejs
