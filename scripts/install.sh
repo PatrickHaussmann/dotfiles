@@ -24,13 +24,16 @@ install htop
 install vim
 install mosh
 install wget
-install npm
-install nodejs
+
+
+curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
 
 yes | npm install -g serve vercel prettier
 
 # Run all scripts in programs/
-for f in programs/*.sh; do bash "$f" -H; done
+#for f in programs/*.sh; do bash "$f" -H; done
 
 # Get all upgrades
 sudo apt upgrade -y
@@ -43,5 +46,3 @@ echo "
 |  _  |  __/ | | (_) |_|
 |_| |_|\___|_|_|\___/(_)
 "
-
-
