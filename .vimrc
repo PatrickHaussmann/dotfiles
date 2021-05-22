@@ -16,7 +16,7 @@ set wrap linebreak              "soft wrap  ->  use gj and gk to move by screen 
 
 " turn on syntax highlighting
 syntax on
-  
+
 " Turn Off Swap Files
 set noswapfile
 set nobackup
@@ -47,7 +47,7 @@ set wildmode=list:longest
 
 " Use case-smart searching
 " These two options, when set together, will make /-style searches case-sensitive only if there is a capital letter in the search expression. *-style searches continue to be consistently case-sensitive.
-set ignorecase 
+set ignorecase
 set smartcase
 
 " Set the terminal title
@@ -75,14 +75,14 @@ set visualbell
 " display right colors in tmux
 set background=dark
 
-" line numbers in grey 
+" line numbers in grey
 highlight LineNr ctermfg=grey
 
 " enables mouse in all modes (mouse scrolling in vim instead of tmux)
 set mouse=a
 
 " excape delay
-set  timeoutlen=1000 " time out for key codes
+set timeoutlen=1000 " time out for key codes
 set ttimeoutlen=20   " wait up to 20ms after Esc for special key
 
 " Use english for spellchecking, but don't spellcheck by default
@@ -90,3 +90,4 @@ if version >= 700
 set spl=en spell
 set nospell
 endif
+
