@@ -1,7 +1,15 @@
+# Title: Summary, imperative, start upper case, don't end with a period
 # If applied, this commit will...
 # [Add/Fix/Document/Refactor/Update] [summary]
+# No more than 50 chars. #### 50 chars is here: #
 
-# Optional list of changes in point form
+# Remember blank line between title and body.
 
+# Body: Explain *what* and *why* (not *how*).
+# Wrap at 72 chars. ################################## which is here: #
+
+
+# Include at least one empty line before it.
 # Closes #[issue id]
 # Co-authored-by: Name <github-username@users.noreply.github.com>
+
