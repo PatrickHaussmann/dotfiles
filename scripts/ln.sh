@@ -3,13 +3,22 @@
 # Up from scripts dir
 cd ..
 
-ln -s .ssh ${HOME}
-ln -s .vim ${HOME}
-ln -s .bash_profile ${HOME}
-ln -s .bash_unsplash ${HOME}
-ln -s .bashrc ${HOME}
-ln -s .gitconfig ${HOME}
-ln -s .gitmessage ${HOME}
-ln -s .tmux.conf ${HOME}
-ln -s .vimrc ${HOME}
-ln -s .git-completion.bash ${HOME}
+function link {
+  # check if it is file or directory
+  if [ -f ${HOME}/$1 ] || [ -d ${HOME}/$1 ] ; then
+    mv ${HOME}/$1 ${HOME}/$1.orig
+  fi
+
+  ln -s ${PWD}/$1 ${HOME}
+}
+
+link .ssh
+link .vim
+link .bash_profile
+link .bash_unsplash
+link .bashrc
+link .gitconfig
+link .gitmessage
+link .tmux.conf
+link .vimrc
+link .git-completion.bash
