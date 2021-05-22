@@ -91,3 +91,5 @@ set spl=en spell
 set nospell
 endif
 
+inoremap ii <ESC>
+
