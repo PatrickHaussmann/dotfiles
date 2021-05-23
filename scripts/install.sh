@@ -26,6 +26,7 @@ install mosh
 install wget
 install tmux
 install clang-format
+install jq
 
 # Run all scripts in programs/
 #for f in programs/*.sh; do bash "$f" -H; done
