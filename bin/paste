@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ $# -eq 0 ] ; then
+    # read content from stdin
+    cat | curl -F 'f:1=<-' ix.io
+else
+    if [ -f $1 ] || [ -h $1 ] ; then
+        # use content of the file/symlink in first argument
+        cat $1 | curl -F 'f:1=<-' ix.io
+    else
+        # use arguments as content
+        echo $* | curl -F 'f:1=<-' ix.io
+    fi
+fi
+
