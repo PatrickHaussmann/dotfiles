@@ -27,11 +27,6 @@ install wget
 install tmux
 install clang-format
 
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-sudo apt-get install -y nodejs
-
-yes | npm install -g serve vercel prettier
-
 # Run all scripts in programs/
 #for f in programs/*.sh; do bash "$f" -H; done
 
