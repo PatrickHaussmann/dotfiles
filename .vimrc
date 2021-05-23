@@ -34,9 +34,9 @@ endif
 set autoindent
 set smartindent
 set smarttab
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
+set shiftwidth=2
+set softtabstop=2
+set tabstop=2
 set expandtab
 
 " Keep 5 lines below and above the cursor
@@ -91,5 +91,18 @@ set spl=en spell
 set nospell
 endif
 
+" alternative way to exit insert-mode if no esc key is present
 inoremap ii <ESC>
+
+" move cursor up and down by display lines (softwrapped lines)
+nmap <up> gk
+nmap <down> gj
+
+" move current line / selected block up and down
+nnoremap <C-down> :m .+1<CR>==
+nnoremap <C-up> :m .-2<CR>==
+inoremap <C-down> <Esc>:m .+1<CR>==gi
+inoremap <C-up> <Esc>:m .-2<CR>==gi
+vnoremap <C-down> :m '>+1<CR>gv=gv
+vnoremap <C-up> :m '<-2<CR>gv=gv
 
