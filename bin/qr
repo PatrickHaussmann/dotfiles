@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ "$1" = "-h" ] ; then
+    echo "Usage:\n $0 <url>\n ... | $0"
+    exit 0
+fi
+
+if [ $# -eq 0 ] ; then
+    # read url from stdin
+    cat | curl -F-=\<- qrenco.de
+else
+    # use arguments as input
+    echo $* | curl -F-=\<- qrenco.de
+fi
+
