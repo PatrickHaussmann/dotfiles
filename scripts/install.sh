@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Link dotfiles
 #bash ./ln.sh
@@ -27,9 +27,14 @@ install wget
 install tmux
 install clang-format
 install jq
+install exa
 
-# Run all scripts in programs/
-#for f in programs/*.sh; do bash "$f" -H; done
+tmpdir=$(mktemp -d)
+wget -q --show-progress -O $tmpdir/bat.deb https://github.com/sharkdp/bat/releases/download/v0.18.1/bat_0.18.1_amd64.deb
+install $tmpdir/bat.deb
+rm -r $tmpdir
+
+
 
 # Get all upgrades
 sudo apt upgrade -y

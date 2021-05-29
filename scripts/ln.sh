@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Up from scripts dir
 cd ..
