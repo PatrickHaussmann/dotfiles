@@ -37,7 +37,16 @@ alias pip='pip3'
 alias weather='curl v2.wttr.in/'
 
 alias mirror='wget -e robots=off -mkEpnp -w 0.5 --random-wait'
-#alias unsplash='bash ~/dotfiles/bash/.bash_unsplash'
+
+which batcat &> /dev/null
+if [ $? -eq 0 ]; then
+  alias bat='batcat'
+fi
+
+alias man='batman'
+alias cat='bat --style=plain'
+alias ls='exa --color=auto'
+alias la='exa -lagF --git --color=auto'
 
 
 
