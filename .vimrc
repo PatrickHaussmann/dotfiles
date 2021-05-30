@@ -106,3 +106,7 @@ inoremap <C-up> <Esc>:m .-2<CR>==gi
 vnoremap <C-down> :m '>+1<CR>gv=gv
 vnoremap <C-up> :m '<-2<CR>gv=gv
 
+" use bat colors
+set termguicolors
+colorscheme bat
+
