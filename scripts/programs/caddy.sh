@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # https://caddyserver.com/docs/install#debian-ubuntu-raspbian
 

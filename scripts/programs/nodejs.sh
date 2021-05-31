@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # https://github.com/nodesource/distributions/blob/master/README.md#debinstall
 
