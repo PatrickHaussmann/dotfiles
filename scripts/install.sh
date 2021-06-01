@@ -27,14 +27,6 @@ install wget
 install tmux
 install clang-format
 install jq
-install exa
-
-tmpdir=$(mktemp -d)
-wget -q --show-progress -O $tmpdir/bat.deb https://github.com/sharkdp/bat/releases/download/v0.18.1/bat_0.18.1_amd64.deb
-install $tmpdir/bat.deb
-rm -r $tmpdir
-
-
 
 # Get all upgrades
 sudo apt upgrade -y
