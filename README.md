@@ -2,7 +2,7 @@
 
 This repository consists of my own common dotfiles for a couple of configurations/programs. 
 
-The [installation script included](https://github.com/victoriadrake/dotfiles/blob/ubuntu-20.04/scripts/install.sh) will install a suggested serving of programs and applications, found within the `scripts/` directory. Please verify that you want these before running the script.
+The [installation script included](https://github.com/patrickhaussmann/dotfiles/blob/master/scripts/install.sh) will install a suggested serving of programs and applications, found within the `scripts/` directory. Please verify that you want these before running the script.
 
 Add or delete files in `scripts/install.sh` and `scripts/programs/` to modify the installation.
 
