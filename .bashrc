@@ -106,6 +106,8 @@ if [[ -d "$dir" && -r "$dir" && -x "$dir" ]]; then
 fi
 
 export PATH="$HOME/bin:$PATH"
+export VISUAL=vim
+export EDITOR="$VISUAL"
 
 PROMPT_COMMAND='history -a'
 
