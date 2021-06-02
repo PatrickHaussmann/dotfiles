@@ -97,8 +97,12 @@ function picrename() {
      fdfind '.' -e lrv "$MY_PATH" -x mv {} {.}.lrv.mp4
 }
 
-if [ -f ~/.git-completion.bash ]; then
-    . ~/.git-completion.bash
+
+dir="~/.bash.d"
+if [[ -d "$dir" && -r "$dir" && -x "$dir" ]]; then
+  for file in "$dir"/*; do
+    [[ -f "$file" && -r "$file" ]] && source "$file"
+  done
 fi
 
 export PATH="$HOME/bin:$PATH"
