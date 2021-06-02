@@ -1,11 +1,23 @@
 #!/bin/sh
-password() {
-	head -n16 /dev/urandom | md5sum | cut -d' ' -f1
+
+_passwordblock() {
+  tr -cd '[:alpha:]' < /dev/urandom | head -c3
+  tr -cd '[:digit:]' < /dev/urandom | head -c1
 }
 
-i=0
-while [ $i -lt 20 ]
+password() {
+  _passwordblock
+  for i in 1 2 3 4 5 6 7
+  do
+    printf "-"
+    _passwordblock
+  done
+}
+
+i=1
+while [ $i -lt 21 ]
 do
-	printf "%2d: %s\n" "$((i+1))" "$(password)"
-	: $((i++))
+  printf "%2d: %s\n" "$i" "$(password)"
+  i=$((i+1))
 done
+
