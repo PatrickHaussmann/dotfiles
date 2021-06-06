@@ -15,8 +15,7 @@ function check_and_remove {
   fi
 }
 
-files=$(echo .* | fmt -w 1 | sed '/^\.$/d' | sed '/^\.\.$/d' | sed '/^\.git$/d' | sed '/^\.gitignore$/d' )
-files="bin $files"
+files=$(echo .* | fmt -w 1 | sed '/^\.$/d' | sed '/^\.\.$/d' | sed '/^\.scripts$/d' | sed '/^\.git$/d' | sed '/^\.gitignore$/d' )
 
 for file in $files; do
   if [ -f $file ]; then
