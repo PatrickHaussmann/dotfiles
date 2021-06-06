@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# Repeat command n times, eg: repeat 5 echo hi
+max=$1; shift;
+for ((i=1; i <= max ; i++)); do
+  eval "$@";
+done
+
