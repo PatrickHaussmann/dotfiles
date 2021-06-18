@@ -42,12 +42,13 @@ which batcat &> /dev/null
 if [ $? -eq 0 ]; then
   alias bat='batcat'
 fi
+export BAT_PAGER="less -RFM"
 
 alias man='batman'
 alias cat='bat --style=plain'
 alias ls='exa --color=auto'
 alias la='exa -lagF --git --color=auto'
-
+alias ld='la -D'
 
 dir="${HOME}/.bash.d"
 if [[ -d "$dir" && -r "$dir" && -x "$dir" ]]; then
