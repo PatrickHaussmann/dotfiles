@@ -60,6 +60,8 @@ fi
 export PATH="$HOME/.bin:$PATH"
 export VISUAL=vim
 export EDITOR="$VISUAL"
+export LC_ALL="en_US.UTF-8"
+
 
 PROMPT_COMMAND='history -a'
 
