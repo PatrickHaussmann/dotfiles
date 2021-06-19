@@ -111,7 +111,6 @@ set termguicolors
 colorscheme bat
 
 call plug#begin('~/.vim/plugged')
-Plug 'codota/tabnine-vim'
 Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
