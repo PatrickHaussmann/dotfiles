@@ -4,6 +4,9 @@
 
 [commit]
     template = ~/.gitmessage
+    # show diff when editing the commit message
+    verbose = true
+    #gpgsign = true
 
 [pager]
     diff = delta
@@ -22,4 +25,63 @@
     commit-decoration-style = bold yellow box ul
     file-style = bold yellow ul
     file-decoration-style = none
+
+[pull]
+    rebase = true
+
+[diff]
+    # Detect copies as well as renames
+    renames = copies
+
+[merge]
+    # Include summaries of merged commits in newly created merge commit messages
+    log = true
+
+[fetch]
+    recurseSubmodules = check
+
+[rebase]
+    autosquash = true
+
+[init]
+    defaultBranch = main
+
+[apply]
+    # Detect whitespace errors when applying a patch
+    whitespace = fix
+
+[alias]
+    # View abbreviated SHA, description, and history graph of the latest 20 commits
+    l = log --pretty=oneline -n 20 --graph --abbrev-commit
+
+    # View the current working tree status using the short format
+    s = status -s
+
+    graph = log --graph --color --pretty=format:"%C(yellow)%H%C(green)%d%C(reset)%n%x20%cd%n%x20%cn%x20(%ce)%n%x20%s%n"
+
+    # List contributors with number of commits
+    contributors = shortlog --summary --numbered
+
+    lg = log --color --decorate --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an (%G?)>%Creset' --abbrev-commit
+
+    unreleased = "!f() { git fetch --tags && git diff $(git tag | tail -n 1); }; f"
+    up = !git pull origin master && git remote prune origin && git submodule update --init --recursive
+    undo = !git reset HEAD~1 --mixed
+    top = !git log --format=format:%an | sort | uniq -c | sort -r | head -n 20
+    alias= !git config -l | grep ^alias | cut -c 7- | sed 's/=/ = /' | bat --style=plain -l toml
+
+    # Treat spaces before tabs and all kinds of trailing whitespace as an error
+    whitespace = space-before-tab,-indent-with-non-tab,trailing-space
+    aliases = !git config --get-regexp 'alias.*' | colrm 1 6 | sed 's/[ ]/ = /'
+
+    # list all roots (commits without a parent)
+    roots = log --all --oneline --decorate --max-parents=0
+
+    # git amend [-a|-p|FILE] to just add something to the last commit
+    # (lately I've mostly been using git add [-p]; git show --staged; git amend)
+    amend = commit --amend --no-edit
+
+    # git reword -- edit the last commit message
+    reword = commit --amend --only -v
+    staged = diff --staged
 
