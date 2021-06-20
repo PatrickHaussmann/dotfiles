@@ -42,7 +42,7 @@ which batcat &> /dev/null
 if [ $? -eq 0 ]; then
   alias bat='batcat'
 fi
-export BAT_PAGER="less -RFM"
+export BAT_PAGER="less -XFRM"
 
 alias man='batman'
 alias cat='bat --style=plain'
