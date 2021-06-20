@@ -44,7 +44,7 @@
     autosquash = true
 
 [init]
-    defaultBranch = main
+    defaultBranch = master
 
 [apply]
     # Detect whitespace errors when applying a patch
@@ -75,6 +75,8 @@
 
     # View the current working tree status using the short format
     s = status -s
-    c = commit
-    a = add
+    info = !git-info
+
+    # Show the diff of everything you haven't pushed yet.
+    unpushed = git diff origin/$(git rev-parse --abbrev-ref HEAD)..HEAD
 
