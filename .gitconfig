@@ -37,9 +37,6 @@
     # Include summaries of merged commits in newly created merge commit messages
     log = true
 
-[fetch]
-    recurseSubmodules = check
-
 [rebase]
     autosquash = true
 
