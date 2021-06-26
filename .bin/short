@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if [ $# -ne 1 ] || [ "$1" = "-h" ] ; then
+    echo "Usage:\n $0 <long url>"
+    exit 0
+fi
+
+curl "https://is.gd/create.php?format=simple&url=$(echo $1 | jq -Rr @uri)"
+
