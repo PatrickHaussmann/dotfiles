@@ -1,6 +1,6 @@
 #!/bin/sh
 
-MY_PATH=$(readlink -nf $1)
+MY_PATH=$(readlink -nf "$1")
 fdfind '.' -e jpeg "$MY_PATH" -x mv {} {.}.jpg
 exiftool -P "-filename<FileModifyDate" "-filename<DateTimeOriginal" "-filename<CreateDate" -d "%Y%m%d-%H%M%S%%-c.%%le" -ext jpg -ext png -ext nef -ext mov -ext mp4 -ext lrv -r "$MY_PATH"
 fdfind '.' -e lrv "$MY_PATH" -x mv {} {.}.lrv.mp4
