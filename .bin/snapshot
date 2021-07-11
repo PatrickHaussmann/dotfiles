@@ -37,7 +37,7 @@ if [ ! -f "${EXCLUDE}" ] ; then
   touch "${EXCLUDE}"
 fi
 
-rsync -ai --progress --stats --delete "${SOURCE_DIR}" "${CURRENT}" --exclude-from="${EXCLUDE}"
+rsync -ahv --info=progress2 --stats --delete "${SOURCE_DIR}" "${CURRENT}" --exclude-from="${EXCLUDE}"
 
 DATETIME="$(date -u +%FT%T%Z)"
 BACKUP_PATH="${SNAPSHOT_DIR}/${DATETIME}"
