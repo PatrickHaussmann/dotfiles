@@ -26,6 +26,16 @@ if [ ! -d "${SOURCE_DIR}" ] || [ ! -d "${SNAPSHOT_DIR}" ] ; then
   exit 1
 fi
 
+if [ ! -n "$(ls -A "${SOURCE_DIR}")" ]; then
+   echo "Source is empty"
+   exit 1
+fi
+
+if [ "${SOURCE_DIR}" = "${SNAPSHOT_DIR}" ] ; then
+  echo "Source and snapshot folders are the same"
+  exit 1
+fi
+
 if ! ( [ -h "${LATEST}" ] || [ -d "${LATEST}" ] ) ; then
   mkdir "${LATEST}"
 fi
