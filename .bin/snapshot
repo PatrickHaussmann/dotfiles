@@ -1,0 +1,47 @@
+#!/bin/sh
+
+# enable common error handling options
+#set -euxo pipefail
+#set -eux
+set -eu
+
+if [ $# -lt 2 ] || [ $# -gt 3 ] || [ "$1" = "-h" ] ; then
+    echo "Incremental backups using rsync and hardlinks\n\nUsage:\n $0 [OPTIONS] <source folder> <snapshot folder>"
+    exit 0
+fi
+
+if [ $# -eq 3 ] ; then
+  OPTIONS = shift
+fi
+
+SOURCE_DIR="$1"
+SNAPSHOT_DIR="$2"
+LATEST="${SNAPSHOT_DIR}/latest"
+CURRENT="${SNAPSHOT_DIR}/current"
+EXCLUDE="${SNAPSHOT_DIR}/exclude.txt"
+
+
+if [ ! -d "${SOURCE_DIR}" ] || [ ! -d "${SNAPSHOT_DIR}" ] ; then
+  echo "Directory does not exist"
+  exit 1
+fi
+
+if ! ( [ -h "${LATEST}" ] || [ -d "${LATEST}" ] ) ; then
+  mkdir "${LATEST}"
+fi
+
+cp -lRu "${LATEST}" "${CURRENT}"
+rm -rf "${LATEST}"
+
+if [ ! -f "${EXCLUDE}" ] ; then
+  touch "${EXCLUDE}"
+fi
+
+rsync -ai --progress --stats --delete "${SOURCE_DIR}" "${CURRENT}" --exclude-from="${EXCLUDE}"
+
+DATETIME="$(date -u +%FT%T%Z)"
+BACKUP_PATH="${SNAPSHOT_DIR}/${DATETIME}"
+
+mv "${CURRENT}" "${BACKUP_PATH}"
+
+ln -s "${DATETIME}" "${LATEST}"
