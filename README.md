@@ -2,9 +2,9 @@
 
 This repository consists of my own common dotfiles for a couple of configurations/programs. 
 
-The [installation script included](https://github.com/patrickhaussmann/dotfiles/blob/master/scripts/install.sh) will install a suggested serving of programs and applications, found within the `scripts/` directory. Please verify that you want these before running the script.
+The [installation script included](https://github.com/patrickhaussmann/dotfiles/blob/master/.scripts/install.sh) will install a suggested serving of programs and applications, found within the `scripts/` directory. Please verify that you want these before running the script.
 
-Add or delete files in `scripts/install.sh` and `scripts/programs/` to modify the installation.
+Add or delete files in `.scripts/install.sh` and `.scripts/programs/` to modify the installation.
 
 ## Usage
 
@@ -28,7 +28,7 @@ You may optionally like to pass the `--depth` argument to clone only a few of th
 Close Firefox if it's open, then run the installation script.
 
 ```sh
-cd dotfiles/scripts/
+cd dotfiles/.scripts/
 ./install.sh
 ```
 
