@@ -1,8 +1,4 @@
 #!/bin/sh
-
-# enable common error handling options
-#set -euxo pipefail
-#set -eux
 set -eu
 
 if [ $# -lt 2 ] || [ $# -gt 3 ] || [ "$1" = "-h" ] ; then

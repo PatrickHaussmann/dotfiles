@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 
 MY_PATH=$(readlink -nf "$1")
 fdfind '.' -e jpeg "$MY_PATH" -x mv {} {.}.jpg

@@ -1,4 +1,5 @@
 #!/bin/sh
+set -eu
 
 # Extract a variety of compressed file types
 if [ -f $1 ] ; then

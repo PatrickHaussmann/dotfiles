@@ -1,4 +1,4 @@
 #!/bin/sh
+set -eu
 
 cat /proc/sys/kernel/random/uuid
-
