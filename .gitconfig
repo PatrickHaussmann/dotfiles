@@ -75,5 +75,4 @@
     info = !git-info
 
     # Show the diff of everything you haven't pushed yet.
-    unpushed = git diff origin/$(git rev-parse --abbrev-ref HEAD)..HEAD
-
+    unpushed = !git diff origin/$(git rev-parse --abbrev-ref HEAD)..HEAD
