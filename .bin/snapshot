@@ -55,6 +55,8 @@ if [ "${OPTIONS}" = "-c" ] ; then
   exit 0
 fi
 
+rsync-sidekick -exclusions "${EXCLUDE}" "${SOURCE_DIR}" "${CURRENT}"
+
 rsync -ahv --info=progress2 --stats --delete "${SOURCE_DIR}" "${CURRENT}" --exclude-from="${EXCLUDE}"
 
 DATETIME="$(date -u +%FT%T%Z)"
