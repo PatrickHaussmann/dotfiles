@@ -2,7 +2,7 @@
 set -e
 
 if [ $# -lt 2 ] || [ $# -gt 3 ] || [ "$1" = "-h" ] ; then
-    echo "Incremental backups using rsync and hardlinks\n\nUsage:\n $0 [OPTIONS] <source folder> <snapshot folder>"
+    echo "Incremental backups using rsync and hardlinks\n\nUsage:\n $0 [OPTIONS] <source folder> <snapshot folder>\n\n -c: stop after copy\n -r: resume even if folder \"CURRENT\" is found"
     exit 0
 fi
 
@@ -38,11 +38,21 @@ if ! ( [ -h "${LATEST}" ] || [ -d "${LATEST}" ] ) ; then
   mkdir "${LATEST}"
 fi
 
+if ( [ -h "${CURRENT}" ] || [ -d "${CURRENT}" ] ) && [ "${OPTIONS}" != "-r" ] ; then
+  echo 'Folder "CURRENT" does already exist\nUse Option "-r" to resume anyway'
+  exit 1
+fi
+
 cp -lRu "${LATEST}" "${CURRENT}"
 rm -rf "${LATEST}"
 
 if [ ! -f "${EXCLUDE}" ] ; then
   touch "${EXCLUDE}"
+fi
+
+if [ "${OPTIONS}" = "-c" ] ; then
+  echo 'Exit after copy'
+  exit 0
 fi
 
 rsync -ahv --info=progress2 --stats --delete "${SOURCE_DIR}" "${CURRENT}" --exclude-from="${EXCLUDE}"
