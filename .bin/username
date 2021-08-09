@@ -1,0 +1,40 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "-h" ] ; then
+    echo "Usage:\n $0 <?length> <?rows>"
+    exit 0
+fi
+
+_usernameblock() {
+  tr -cd 'bcdfghjklmnpqrstvwxyz' < /dev/urandom | head -c1
+  tr -cd 'aeiou' < /dev/urandom | head -c1
+}
+
+username() {
+  i=1
+  while [ $i -lt $length ]
+  do
+    _usernameblock
+    i=$((i+1))
+  done
+}
+
+length=5
+rows=20
+
+if [ ! -z "$1" ]; then
+  length="$1"
+fi
+
+if [ ! -z "$2" ]; then
+  rows="$2"
+fi
+
+i=0
+while [ $i -lt $rows ]
+do
+  printf "%2d: %s\n" "$((i+1))" "$(username)"
+  i=$((i+1))
+done
+

@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -e
 
 if [ $# -lt 2 ] || [ $# -gt 3 ] || [ "$1" = "-h" ] ; then
     echo "Incremental backups using rsync and hardlinks\n\nUsage:\n $0 [OPTIONS] <source folder> <snapshot folder>"
