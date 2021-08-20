@@ -81,7 +81,11 @@ highlight LineNr ctermfg=grey
 " enables mouse in all modes (mouse scrolling in vim instead of tmux)
 set mouse=a
 
-" excape delay
+if !has('nvim')
+  set ttymouse=xterm2
+endif
+
+:" excape delay
 set timeoutlen=1000 " time out for key codes
 set ttimeoutlen=20   " wait up to 20ms after Esc for special key
 
@@ -114,6 +118,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'preservim/nerdtree'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+"Plug 'codota/tabnine-vim'
 call plug#end()
 
 
