@@ -72,7 +72,7 @@
 
     # View the current working tree status using the short format
     s = status -s
-    info = !git-info
+    info = !git-info -aA
 
     # Show the diff of everything you haven't pushed yet.
     unpushed = !git diff origin/$(git rev-parse --abbrev-ref HEAD)..HEAD
