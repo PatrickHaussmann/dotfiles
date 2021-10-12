@@ -1,0 +1,1 @@
+for f in *.mp4; do ffmpeg -i "$f" -vcodec libx264 -crf 24 -filter:v fps=30,scale="trunc(oh*a/2)*2:720" "${f%.mp4}.lrv.mp4"; done
