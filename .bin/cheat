@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+if [ $# -eq 0 ] || [ "$1" = "-h" ] ; then
+    echo "Usage:\n $0 <search>"
+    exit 0
+fi
+
+curl "https://cheat.sh/$*"
+
