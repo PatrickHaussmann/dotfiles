@@ -2,7 +2,7 @@
 set -eu
 
 if [ $# -eq 0 ] || [ "$1" = "-h" ] ; then
-    echo "Usage:\n $0 <search>"
+    echo "Usage:\n$0 TOPIC       show cheat sheet on the TOPIC\n$0 TOPIC/SUB   show cheat sheet on the SUB topic in TOPIC\n$0 ~KEYWORD    search cheat sheets for KEYWORD"
     exit 0
 fi
 
