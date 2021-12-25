@@ -1,7 +1,6 @@
 #!/bin/sh
 
-# Up from scripts dir
-cd ..
+shopt -s expand_aliases
 
 function check_and_remove {
   # check if it is a symlink
@@ -15,7 +14,9 @@ function check_and_remove {
   fi
 }
 
-files=$(echo .* | fmt -w 1 | sed '/^\.$/d' | sed '/^\.\.$/d' | sed '/^\.scripts$/d' | sed '/^\.git$/d' | sed '/^\.gitignore$/d' )
+
+files=$(echo .* | fmt -w 1 | sed '/^\.$/d' | sed '/^\.\.$/d' | sed '/^\.git$/d' | sed '/^\.gitignore$/d' )
+
 
 for file in $files; do
   if [ -f $file ]; then
@@ -31,4 +32,21 @@ for file in $files; do
     done
   fi
 done
+
+source ${HOME}/.bashrc
+
+
+# Update
+sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y
+
+sudo apt install  -y curl git htop neovim mosh wget tmux clang-format
+
+
+echo "
+ _   _      _ _       _ 
+| | | | ___| | | ___ | |
+| |_| |/ _ \ | |/ _ \| |
+|  _  |  __/ | | (_) |_|
+|_| |_|\___|_|_|\___/(_)
+"
 
