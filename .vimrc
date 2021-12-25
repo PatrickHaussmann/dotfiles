@@ -114,3 +114,7 @@ vnoremap <C-up> :m '<-2<CR>gv=gv
 set termguicolors
 colorscheme bat
 
+" for git-gutters
+set updatetime=100
+highlight SignColumn guibg=black
+

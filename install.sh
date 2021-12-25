@@ -39,7 +39,10 @@ source ${HOME}/.bashrc
 # Update
 sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y
 
-sudo apt install  -y curl git htop neovim mosh wget tmux clang-format
+sudo apt install -y curl git htop vim mosh wget tmux clang-format
+
+
+nvim -u NONE -c "helptags vim-gitgutter/doc" -c q
 
 
 echo "
