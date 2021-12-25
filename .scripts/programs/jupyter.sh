@@ -2,7 +2,7 @@
 
 echo "Installing Jupyter"
 
-sudo apt install python3 python3-pip
+sudo apt install -y python3 python3-pip
 
 pip3 install notebook
 
