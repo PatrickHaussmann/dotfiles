@@ -64,9 +64,12 @@ def safe_rename(old, new):
     i = 1
     while True:
         alternative_new = base + "-" + str(i) + ext
+        if old == alternative_new:
+            return old
         if not os.path.exists(alternative_new):
             os.rename(old, alternative_new)
             return alternative_new
+        i += 1
 
 
 def rename(file):
