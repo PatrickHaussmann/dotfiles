@@ -4,6 +4,9 @@ import argparse
 import os
 import re
 
+counter_all = 0
+counter_renamed = 0
+
 
 def readable_dir(prospective_dir):
     if not os.path.isdir(prospective_dir):
@@ -52,12 +55,15 @@ def get_name(file):
 
 
 def safe_rename(old, new):
-    if not os.path.exists(new):
-        os.rename(old, new)
-        return new
+    global counter_renamed
 
     if old == new:
         return old
+
+    if not os.path.exists(new):
+        os.rename(old, new)
+        counter_renamed += 1
+        return new
 
     base, ext = os.path.splitext(new)
 
@@ -68,12 +74,17 @@ def safe_rename(old, new):
             return old
         if not os.path.exists(alternative_new):
             os.rename(old, alternative_new)
+            counter_renamed += 1
             return alternative_new
         i += 1
 
 
 def rename(file):
+    global counter_all
+
     base, ext = os.path.splitext(file)
+
+    counter_all += 1
 
     if file[-8:] == ".lrv.mp4":
         return
@@ -125,3 +136,6 @@ for path in args.paths:
             for item in os.listdir(path):
                 if os.path.isfile(os.path.join(path, item)):
                     rename(os.path.join(path, item))
+
+print()
+print(counter_renamed, "out of", counter_all, "renamed!", sep=" ")
