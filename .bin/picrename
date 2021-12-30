@@ -1,8 +1,124 @@
-#!/bin/sh
-set -eu
+#!/usr/bin/env python3
 
-MY_PATH=$(readlink -nf "$1")
-fdfind '.' -e jpeg "$MY_PATH" -x mv {} {.}.jpg
-exiftool -P "-filename<FileModifyDate" "-filename<DateTimeOriginal" "-filename<CreateDate" -d "%Y%m%d-%H%M%S%%-c.%%le" -ext jpg -ext png -ext nef -ext mov -ext mp4 -ext lrv -r "$MY_PATH"
-fdfind '.' -e lrv "$MY_PATH" -x mv {} {.}.lrv.mp4
+import argparse
+import os
+import re
 
+
+def readable_dir(prospective_dir):
+    if not os.path.isdir(prospective_dir):
+        raise Exception(
+            "readable_dir:{0} is not a valid path".format(prospective_dir))
+    if os.access(prospective_dir, os.R_OK):
+        return prospective_dir
+    else:
+        raise Exception(
+            "readable_dir:{0} is not a readable dir".format(prospective_dir))
+
+
+def path_exists(path):
+    if not os.path.exists(path):
+        raise argparse.ArgumentTypeError("path does not exist: '%s'" % path)
+    if not (os.path.isfile(path) or os.path.isdir(path)):
+        raise argparse.ArgumentTypeError("path not valid: '%s'" % path)
+    return path
+
+
+def get_name(file):
+    basename = os.path.splitext(os.path.basename(file))[0]
+
+    m = re.match(r"(\d{8}-\d{6})", basename)
+    if m:
+        return m[1]
+
+    m = re.match(r"(?:IMG|VID)(\d{8})(\d{6})", basename)
+    if m:
+        return m[1]+"-"+m[2]
+
+    m = re.match(r"(?:IMG|VID)_(\d{8})_(\d{6})", basename)
+    if m:
+        return m[1]+"-"+m[2]
+
+    m = re.match(r"(?:IMG|VID)-(\d{8})-WA\d{4}", basename)
+    if m:
+        return m[1]+"-000000"
+
+    m = re.match(
+        r"Screenshot_(\d{4}-\d{2}-\d{2})-(\d{2}-\d{2}-\d{2})", basename)
+    if m:
+        return m[1].replace("-", "")+"-"+m[2].replace("-", "")
+
+    return ""
+
+
+def safe_rename(old, new):
+    if not os.path.exists(new):
+        os.rename(old, new)
+        return new
+
+    if old == new:
+        return old
+
+    base, ext = os.path.splitext(new)
+
+    i = 1
+    while True:
+        alternative_new = base + "-" + str(i) + ext
+        if not os.path.exists(alternative_new):
+            os.rename(old, alternative_new)
+            return alternative_new
+
+
+def rename(file):
+    base, ext = os.path.splitext(file)
+
+    if file[-8:] == ".lrv.mp4":
+        return
+
+    if ext == ".lrv":
+        file = safe_rename(file, base+".lrv.mp4")
+        base, ext = os.path.splitext(file)
+
+    if ext == ".jpeg":
+        file = safe_rename(file, base+".jpg")
+        base, ext = os.path.splitext(file)
+
+    if ext.lower() not in [".jpg", ".png", ".nef", ".mov", ".mp4", ".lrv.mp4"]:
+        return
+
+    name = get_name(file)
+    if name:
+        dir = os.path.dirname(file)
+        new_file = dir+os.sep+name+ext.lower()
+        alternative_new = safe_rename(file, new_file)
+        print(file, alternative_new)
+    else:
+        os.error("no name found")
+
+
+parser = argparse.ArgumentParser(
+    description='Rename utility for pictures')
+
+parser.add_argument('-r', '--recursive', action="store_true",
+                    default=False, help='recursive')
+parser.add_argument('paths', nargs="*",
+                    help='PATH of files and folders', type=path_exists)
+args = parser.parse_args()
+
+if len(args.paths) == 0:
+    print("No paths specified")
+    exit(1)
+
+
+for path in args.paths:
+    if os.path.isfile(path):
+        rename(path)
+    else:
+        if args.recursive:
+            for root, dirs, files in os.walk(path):
+                for filename in files:
+                    rename(os.path.join(root, filename))
+        else:
+            for item in os.listdir(path):
+                if os.path.isfile(os.path.join(path, item)):
+                    rename(os.path.join(path, item))
