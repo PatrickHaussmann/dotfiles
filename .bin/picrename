@@ -105,7 +105,8 @@ def rename(file):
         dir = os.path.dirname(file)
         new_file = dir+os.sep+name+ext.lower()
         alternative_new = safe_rename(file, new_file)
-        print(file, alternative_new)
+        if alternative_new != file:
+            print(file, alternative_new, sep=" -> ")
     else:
         os.error("no name found")
 
