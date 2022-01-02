@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 if [ $# -lt 2 ] || [ $# -gt 3 ] || [ "$1" = "-h" ] ; then

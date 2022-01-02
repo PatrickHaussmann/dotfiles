@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -eu
 
 if [ $# -eq 0 ] || [ "$1" = "-h" ] ; then

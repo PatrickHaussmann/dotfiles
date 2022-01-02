@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -eu
 
 # https://youness.net/linux/set-random-wallpapers-unsplash-com-ubuntu#v2

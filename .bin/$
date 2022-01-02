@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -eu
 
 # Ever pasted "$ somecommand" into the terminal and gotten this error?
