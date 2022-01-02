@@ -15,7 +15,7 @@ function check_and_remove {
 }
 
 
-files=$(echo .* Vagrantfile | fmt -w 1 | sed '/^\.$/d' | sed '/^\.\.$/d' | sed '/^\.git$/d' | sed '/^\.gitignore$/d' )
+files=$( echo .* Vagrantfile | fmt -w 1 | grep -vE '^((Vagrantfile)|(\.install_did_run)|(\.git)|(\.gitignore))$' | grep -vE '^[.]{1,2}$' )
 
 
 for file in $files; do

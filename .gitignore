@@ -1,1 +1,4 @@
 *
+.install_did_run
+.ssh/*
+
