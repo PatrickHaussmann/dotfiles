@@ -39,6 +39,8 @@ source ${HOME}/.bashrc
 if [ ! -f "${PWD}/.install_did_run" ]; then
   touch "${PWD}/.install_did_run"
   # Update
+  export DEBIAN_FRONTEND=noninteractive
+
   sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y
 
   sudo apt-get install -y curl git htop vim mosh wget tmux clang-format
