@@ -38,10 +38,6 @@ alias weather='curl v2.wttr.in/'
 
 alias mirror='wget -e robots=off -mkEpnp -w 0.5 --random-wait'
 
-which batcat &> /dev/null
-if [ $? -eq 0 ]; then
-  alias bat='batcat'
-fi
 export BAT_PAGER='less -XFRM'
 
 alias fd='fdfind'
