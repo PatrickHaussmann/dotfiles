@@ -42,9 +42,6 @@ sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt a
 sudo apt install -y curl git htop vim mosh wget tmux clang-format
 
 
-nvim -u NONE -c "helptags vim-gitgutter/doc" -c q
-
-
 echo "
  _   _      _ _       _ 
 | | | | ___| | | ___ | |
