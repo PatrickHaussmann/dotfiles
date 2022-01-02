@@ -140,3 +140,4 @@ for path in args.paths:
 
 print()
 print(counter_renamed, "out of", counter_all, "renamed!", sep=" ")
+
