@@ -19,10 +19,10 @@ alias ~="cd ~"
 alias -- -="cd -"
 alias x='exit'
 
-alias update='sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y'
+alias update='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y'
 alias s='sudo'
-alias sai='sudo apt install'
-alias sap='sudo apt purge'
+alias sai='sudo apt-get install'
+alias sap='sudo apt-get purge'
 alias mkcd='_(){ mkdir $1; cd $1; }; _'
 alias du2='_(){ du -ach --max-depth=1 $1 | sort -h ; }; _'
 alias fhere='find . -name'

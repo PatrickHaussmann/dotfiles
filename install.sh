@@ -39,9 +39,9 @@ source ${HOME}/.bashrc
 if [ ! -f "${PWD}/.install_did_run" ]; then
   touch "${PWD}/.install_did_run"
   # Update
-  sudo apt update && sudo apt upgrade -y && sudo apt full-upgrade -y && sudo apt autoremove -y
+  sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y
 
-  sudo apt install -y curl git htop vim mosh wget tmux clang-format
+  sudo apt-get install -y curl git htop vim mosh wget tmux clang-format
 
   echo -e "\n\n192.168.47.62   vagrant\n" | sudo tee -a /etc/hosts
 fi
