@@ -15,11 +15,11 @@ function check_and_remove {
 }
 
 
-files=$( echo .* vm | fmt -w 1 | grep -vE '^((\.install_did_run)|(\.git)|(\.gitignore))$' | grep -vE '^[.]{1,2}$' )
+files=$( echo .* vm Vagrantfile | fmt -w 1 | grep -vE '^((\.install_did_run)|(\.git)|(\.gitignore))$' | grep -vE '^[.]{1,2}$' )
 
 
 for file in $files; do
-  if [ -f $file ]; then
+  if [ -f $file ] || [ -h $file ]; then
     check_and_remove $file
     ln -s ${PWD}/$file ${HOME}
   fi
@@ -50,7 +50,7 @@ fi
 
 
 echo "
- _   _      _ _       _ 
+ _   _      _ _       _
 | | | | ___| | | ___ | |
 | |_| |/ _ \ | |/ _ \| |
 |  _  |  __/ | | (_) |_|
