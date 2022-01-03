@@ -3,5 +3,28 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "gusztavvargadr/windows-11"
-end
+  # or             StefanScherer/windows_11
+  config.vm.network "private_network", ip: "192.168.47.63"
+  config.vm.hostname = "vagrant-win"
 
+  config.vm.communicator = "winrm"
+
+  # Admin user name and password
+  config.winrm.username = "vagrant"
+  config.winrm.password = "vagrant"
+
+  config.vm.guest = :windows
+  config.vagrant.plugins = ["winrm", "winrm-fs", "winrm-elevated"]
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "/home/patrick", "/home/patrick", create: true
+
+  config.vm.provider "virtualbox" do |v|
+    v.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
+    v.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
+    v.gui = true
+    v.name = "win11-vagrant"
+    v.cpus = 4
+    v.memory = 6144
+  end
+end
