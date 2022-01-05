@@ -1,0 +1,36 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/focal64"
+  config.vm.network "private_network", ip: "192.168.47.63"
+  config.vm.hostname = "vagrant-ubuntu"
+
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.synced_folder "/home/patrick", "/home/patrick", create: true
+
+  config.vagrant.plugins = ["vagrant-vbguest"]
+  # or install separately with: vagrant plugin install
+
+  config.vm.provider "virtualbox" do |v|
+    v.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
+    v.customize ['modifyvm', :id, '--draganddrop', 'bidirectional']
+    v.gui = true
+    v.name = "ubuntu-vagrant"
+    v.cpus = 4
+    v.memory = 6144
+  end
+
+  config.vm.provision "shell", inline: <<-SHELL
+     [ -d dotfiles ] && exit 0
+     sudo -u vagrant cp /home/patrick/.ssh/* .ssh/
+     sudo -u vagrant git clone --quiet git@github.com:PatrickHaussmann/dotfiles.git
+     cd dotfiles
+     sudo -u vagrant bash install.sh
+     cd ..
+     rm .ssh/*.orig
+     sudo apt install -y ubuntu-desktop
+     echo "[daemon]\nAutomaticLoginEnable = true\nAutomaticLogin = vagrant\n\n[security]\n\n[xdmcp]\n\n[chooser]\n\n[debug]\n" | sudo tee /etc/gdm3/custom.conf
+     sudo shutdown -r now
+  SHELL
+end
