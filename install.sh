@@ -43,7 +43,7 @@ if [ ! -f "${PWD}/.install_did_run" ]; then
 
   sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y
 
-  sudo apt-get install -y curl git htop vim mosh wget tmux clang-format
+  sudo apt-get install -y curl git htop vim mosh wget tmux clang-format python3
 
   echo -e "\n\n192.168.47.62   vagrant\n" | sudo tee -a /etc/hosts
 fi
