@@ -31,6 +31,7 @@ Vagrant.configure("2") do |config|
      rm .ssh/*.orig
      sudo apt install -y ubuntu-desktop
      echo "[daemon]\nAutomaticLoginEnable = true\nAutomaticLogin = vagrant\n\n[security]\n\n[xdmcp]\n\n[chooser]\n\n[debug]\n" | sudo tee /etc/gdm3/custom.conf
+     sudo apt purge -y gnome-initial-setup
      sudo shutdown -r now
   SHELL
 end
