@@ -18,11 +18,12 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
      [ -d dotfiles ] && exit 0
+     mkdir git
      sudo -u vagrant cp /home/patrick/.ssh/* .ssh/
      sudo -u vagrant git clone --quiet git@github.com:PatrickHaussmann/dotfiles.git
      cd dotfiles
      sudo -u vagrant bash install.sh
      cd ..
      rm .ssh/*.orig
-   SHELL
+     SHELL
 end
