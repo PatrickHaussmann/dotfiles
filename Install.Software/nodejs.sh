@@ -6,5 +6,5 @@ echo "Installing nodejs+npm"
 
 sudo apt install -y nodejs npm
 
-yes | sudo npm install -g serve prettier
+yes | sudo npm install -g serve prettier live-server
 
