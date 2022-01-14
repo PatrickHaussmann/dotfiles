@@ -1,10 +1,13 @@
 #!/bin/sh
 
-# https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-
 echo "Installing nodejs+npm"
 
-sudo apt install -y nodejs npm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+nvm install node
 
 yes | sudo npm install -g serve prettier live-server
 
