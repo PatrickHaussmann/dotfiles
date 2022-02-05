@@ -44,7 +44,12 @@ if [ ! -f "${PWD}/.install_did_run" ]; then
 
   sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y
 
-  sudo apt-get install -y curl git htop vim mosh wget tmux clang-format python3
+  sudo apt-get install -y curl git htop vim mosh wget bat delta tmux clang-format python3
+  sudo apt-get install -y exa # not always available
+
+  # https://github.com/sharkdp/bat/issues/982#issuecomment-923944239
+  sudo dpkg-divert --package batcat --add --rename --divert /usr/bin/bat /usr/bin/batcat
+
   echo -e "\n\n192.168.47.62   vagrant\n" | sudo tee -a /etc/hosts
 fi
 
