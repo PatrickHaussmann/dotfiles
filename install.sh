@@ -35,9 +35,13 @@ done
 
 source ${HOME}/.bashrc
 
-mkdir git
+mkdir -p git
 
 if [ ! -f "${PWD}/.install_did_run" ]; then
+  sudo lsof /var/lib/dpkg/lock >/dev/null 2>&1
+  [ $? = 0 ] && echo "dpkg/apt lock in use" && exit 1
+
+
   touch "${PWD}/.install_did_run"
   # Update
   export DEBIAN_FRONTEND=noninteractive
