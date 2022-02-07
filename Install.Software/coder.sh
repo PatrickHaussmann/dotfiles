@@ -2,17 +2,37 @@
 
 echo "Installing coder"
 
-sh ufw.sh
+bash node-v14.sh
+bash yarn.sh
 
-curl -fsSL https://code-server.dev/install.sh | sh
+sudo npm install -g code-server --unsafe-perm
 # Alternative:
-# bash nodejs.sh
-# sudo npm install -g code-server
-# or
-# bash yarn.sh
-# sudo yarn global add code-server
+# curl -fsSL https://code-server.dev/install.sh | sh
+# sudo systemctl enable --now code-server@$USER
 
-sudo systemctl enable --now code-server@$USER
+sudo mkdir /code
+sudo chmod 777 /code
+sudo chown $USER:$USER /code
 
-bash cloudflared.sh
+
+sudo tee /lib/systemd/system/code-server.service << EOF
+[Unit]
+Description=Code Server Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/code-server --user-data-dir /code
+Restart=always
+StandardOutput=file:/var/log/code-server-output.log
+StandardError=file:/var/log/code-server-error.log
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+
+sudo systemctl daemon-reload
+sudo systemctl start code-server
+sudo systemctl enable code-server
 
