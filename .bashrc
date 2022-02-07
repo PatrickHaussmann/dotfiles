@@ -54,7 +54,7 @@ if [[ -d "$dir" && -r "$dir" && -x "$dir" ]]; then
   done
 fi
 
-export PATH="$HOME/.bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.bin:$HOME/.bin/$(uname -m):$HOME/.local/bin:$PATH"
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export LC_ALL="en_US.UTF-8"
