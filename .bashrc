@@ -43,8 +43,10 @@ alias mirror='wget -e robots=off -mkEpnp -w 0.5 --random-wait'
 export BAT_PAGER='less -XFRM'
 
 alias fd='fdfind'
-alias man='batman'
-alias cat='bat --style=plain'
+
+which bat >/dev/null 2>&1
+[ $? = 0 ] && alias man='batman' && alias cat='bat --style=plain'
+
 which exa >/dev/null 2>&1
 [ $? = 0 ] && alias ls='exa --color=auto' && alias la='exa -lagF --git --color=auto'
 
