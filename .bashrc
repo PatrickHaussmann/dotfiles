@@ -5,12 +5,13 @@
 # Aliases
 
 alias ls='ls -hF --color=auto'
+alias la='ls -Al'
+alias ld='la -D'
+alias ll='_(){ la --color=never $* | less; }; _'
 alias grep='grep --color=auto'
 alias cp='cp -v'
-alias la='ls -Al'
 alias mv='mv -v'
 alias mkdir='mkdir -v'
-alias ll='_(){ la --color=never $* | less; }; _'
 
 # Easier navigation: .., ..., ~ and -
 alias ..="cd .."
@@ -43,9 +44,8 @@ export BAT_PAGER='less -XFRM'
 alias fd='fdfind'
 alias man='batman'
 alias cat='bat --style=plain'
-alias ls='exa --color=auto'
-alias la='exa -lagF --git --color=auto'
-alias ld='la -D'
+which exa >/dev/null 2>&1
+[ $? = 0 ] && alias ls='exa --color=auto' && alias la='exa -lagF --git --color=auto'
 
 dir="${HOME}/.bash.d"
 if [[ -d "$dir" && -r "$dir" && -x "$dir" ]]; then
