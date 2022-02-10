@@ -1,6 +1,4 @@
-#!/bin/sh
-
-shopt -s expand_aliases
+#!/bin/bash
 
 function check_and_remove {
   # check if it is a symlink
@@ -33,23 +31,15 @@ for file in $files; do
   fi
 done
 
-source ${HOME}/.bashrc
-
-mkdir -p git
-
 if [ ! -f "${PWD}/.install_did_run" ]; then
   sudo lsof /var/lib/dpkg/lock >/dev/null 2>&1
   [ $? = 0 ] && echo "dpkg/apt lock in use" && exit 1
 
-
   touch "${PWD}/.install_did_run"
   # Update
-  export DEBIAN_FRONTEND=noninteractive
-
   sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y
 
   sudo apt-get install -y curl git htop vim mosh wget bat delta tmux clang-format python3
-  sudo apt-get install -y exa # not always available
 
   # https://github.com/sharkdp/bat/issues/982#issuecomment-923944239
   sudo dpkg-divert --package batcat --add --rename --divert /usr/bin/bat /usr/bin/batcat
