@@ -1,0 +1,267 @@
+#! /bin/bash
+# from https://github.com/xeyownt/git-subundle/blob/master/git-subundle
+
+BASE="git subundle"
+
+die_usage()
+{
+    >&2 echo "$BASE: $@"
+    >&2 echo "Usage: $SYNOPSYS"
+    exit 1
+}
+
+die()
+{
+    CODE=$1
+    shift
+    >&2 echo "$BASE: $@"
+    exit $CODE
+}
+
+try()
+{
+    [ -z "$DEBUG" ] || >&2 echo "#### Trying '$@'"
+    "$@" || die 2 "$1 $2 $3 $4 ... failed"
+
+}
+
+function do_reset()
+{
+    DIR="$1"
+
+    [ -d "$DIR" ] || die 1 "Directory '$DIR' not found."
+
+    for d in $(find "$DIR" -name ".git"); do
+        GIT_DIR=${d%%/.git}
+        echo "Reseting repository '$GIT_DIR'..."
+        try git -C "$GIT_DIR" remote remove $BUNDLE_REMOTE
+    done
+}
+
+function pushd_hush()
+{
+    pushd "$@" > /dev/null
+}
+
+function popd_hush()
+{
+    popd "$@" > /dev/null
+}
+
+function do_create()
+{
+    REPO_DIR=$(readlink -e "$1")
+    [ -d "$REPO_DIR" ] || die 1 "Directory '$REPO_DIR' not found."
+    BUNDLE_BASE="${2%%.bundle}"
+    [ -n "$BUNDLE_BASE" ] || BUNDLE_BASE=$(basename "$1")        # Not REPO_DIR because readlink may alter basename
+
+    for DOT_GIT in $(find "$REPO_DIR" -name ".git"); do
+        GIT_DIR=${DOT_GIT%%/.git}
+        echo "Repository '$GIT_DIR'"
+        BUNDLE_FILE="${GIT_DIR##$REPO_DIR}"
+        BUNDLE_FILE="${BUNDLE_BASE}${BUNDLE_FILE////_}.bundle"
+        echo "... creating file '$BUNDLE_FILE'."
+        BUNDLE_FILE=$(readlink -m "$BUNDLE_FILE")
+
+        pushd_hush "$GIT_DIR"
+        try git bundle create "${BUNDLE_FILE}" --all $(git show-ref|grep " refs/remotes/$BUNDLE_REMOTE"|cut -d" " -f2|sed -r 's/$/../') |& sed -r '/^warning: .*is excluded by/d'
+        popd_hush
+    done
+}
+
+function do_unbundle_helper()
+{
+    BUNDLE_FILE="$(readlink -m $1)"
+    [ -e "$BUNDLE_FILE" ] || return 1
+    echo "Bundle file '$BUNDLE_FILE'"
+
+    REPO_DIR="$2"
+    [ -n "$REPO_DIR" ] || die 1 "Missing repository directory."
+    echo "  -> Repository '$REPO_DIR'"
+
+    MODULE_GIT_DIR="$3"
+    [ -z "$MODULE_GIT_DIR" ] || echo "  -> module directory '$MODULE_GIT_DIR'"
+
+    branch="$(git bundle list-heads $BUNDLE_FILE | head -n 1| cut -d' ' -f2)" || branch="HEAD"
+    branch=${branch##refs/heads/}
+    echo "  -> branch '$branch'"
+
+    if [ -n "$MODULE_GIT_DIR" ]; then
+        MODULE=$(basename ${MODULE_GIT_DIR})
+
+        if [ -e "$MODULE_GIT_DIR/.git" ]; then
+            pushd_hush "$MODULE_GIT_DIR"
+            if ! git remote | grep -q "^$BUNDLE_REMOTE$"; then
+                try git remote add $BUNDLE_REMOTE "$BUNDLE_FILE"
+            else
+                # Bundle remote found. Make sure URL points to our BUNDLE_FILE
+                if ! git remote -v | egrep -q "^$BUNDLE_REMOTE[[:space:]]+$BUNDLE_FILE"; then
+                    if [ -n "$FORCE" ]; then
+                        # Force mode, we overwrite existing remote
+                        try git remote set-url $BUNDLE_REMOTE "$BUNDLE_FILE"
+                    else
+                        die 1 "Remote '$BUNDLE_REMOTE' exists but has the wrong URL. Aborting."
+                    fi
+                fi
+            fi
+            try git -c fetch.prune=false fetch $BUNDLE_REMOTE
+            try git bundle unbundle "$BUNDLE_FILE"           # Fetch does not fetch detached HEAD
+            popd_hush
+        else
+            try git -C "$REPO_DIR" submodule init "$MODULE"
+            try git -C "$REPO_DIR" config submodule."$MODULE".url $BUNDLE_FILE
+            try git -C "$REPO_DIR" submodule update "$MODULE"
+
+            [ -d "$MODULE_GIT_DIR" ] || die 1 "'$MODULE_GIT_DIR' does not exist"
+            pushd_hush "$MODULE_GIT_DIR"
+            try git remote rename origin $BUNDLE_REMOTE
+            try git bundle unbundle "$BUNDLE_FILE"           # Fetch does not fetch detached HEAD
+            popd_hush
+        fi
+
+    else
+        if [ -d "$REPO_DIR" ]; then
+            pushd_hush "$REPO_DIR"
+
+            if ! git remote | grep -q "^$BUNDLE_REMOTE$"; then
+                # Remote bundle not found. Create one.
+                try git remote add $BUNDLE_REMOTE "$BUNDLE_FILE"
+            else
+                # Remote bundle found. Make sure URL points to our BUNDLE_FILE
+                if ! git remote -v | egrep -q "^$BUNDLE_REMOTE[[:space:]]+$BUNDLE_FILE"; then
+                    if [ -n "$FORCE" ]; then
+                        # Force mode, we overwrite existing remote
+                        try git remote set-url $BUNDLE_REMOTE "$BUNDLE_FILE"
+                    else
+                        die 1 "Remote '$BUNDLE_REMOTE' exists but has the wrong URL. Aborting."
+                    fi
+                fi
+            fi
+            try git -c fetch.prune=false fetch --recurse-submodules=no $BUNDLE_REMOTE
+            try git bundle unbundle "$BUNDLE_FILE"        # Fetch does not fetch detached HEAD
+
+            popd_hush
+        else
+            try git clone -b $branch "$BUNDLE_FILE" -o $BUNDLE_REMOTE $REPO_DIR
+        fi
+    fi
+
+    [ -n "$WAIT" ] && read -p "Press enter to continue... " DISCARDED
+
+    return 0
+}
+
+function do_unbundle()
+{
+    BUNDLE_BASE="${1%%.bundle}"
+    [ -n "$BUNDLE_BASE" ] || die_usage 1 "Missing BUNDLE"
+    REPO_DIR=$(readlink -m "$2")
+    [ -n "$REPO_DIR" ] || REPO_DIR=$(readlink -m $(basename "$BUNDLE_BASE"))
+    echo "Unbundling to '$REPO_DIR'..."
+
+    BUNDLE_BASE="$(readlink -m "$BUNDLE_BASE")"
+
+    BUNDLE_FILE=${BUNDLE_BASE}.bundle
+    do_unbundle_helper "${BUNDLE_FILE}" "$REPO_DIR" && FOUND=true
+
+    for BUNDLE_FILE in ${BUNDLE_BASE}_*.bundle; do
+        MODULE_GIT_DIR="${BUNDLE_FILE%%.bundle}"
+        MODULE_GIT_DIR="${MODULE_GIT_DIR##$BUNDLE_BASE}"
+        MODULE_GIT_DIR="$REPO_DIR${MODULE_GIT_DIR//_//}"
+        do_unbundle_helper "$BUNDLE_FILE" "$REPO_DIR" "$MODULE_GIT_DIR" && FOUND=true
+    done
+
+    [ -n "$FOUND" ] || die 1 "No bundle file found."
+}
+
+usage_help() {
+# 34567890123456789012345678901234567890123456789012345678901234567890123456789| No char under and beyond | !
+    cat <<- __END__
+NAME
+        $BASE - Create bundle including submodules.
+
+SYNOPSYS
+        $BASE [-dfhw] [-b <name>] create <repository> [<bundle_file>]
+        $BASE [-dfhw] [-b <name>] unbundle <bundle_file> [<repository>]
+        $BASE [-dfhw] [-b <name>] reset <repository>
+
+DESCRIPTION
+        Create bundle '<bundle_file>.bundle' that contains also submodules.
+
+        If you get the following error:
+
+            error: pathspec '...' did not match any file(s) known to git
+
+        Try again with option '-w', and change the branch of parent repository
+        so that module is defined in that branch (in file .gitmodules).
+
+        -b <name>
+                Use <name> as bundle remote name. If omitted, the default
+                remote name is 'bundle'.
+
+        -d
+                Debug output.
+
+        -f
+                Don't complain if a remote with different URL exists already.
+
+        -h
+                Print this help.
+
+        -w
+                Wait after each unbundle.
+
+SEE ALSO
+        git-bundle(1).
+__END__
+}
+
+SYNOPSYS="$BASE [-dfhw] [-b <name>] create|unbundle|reset <bundle_file>|<repository>"
+
+getOptions() {
+    BUNDLE_REMOTE=bundle
+    DEBUG=
+    FORCE=
+    WAIT=
+    while getopts "b:dfhw" flag
+    do
+        case $flag in 
+            b) BUNDLE_REMOTE=$OPTARG
+                ;;
+            d) DEBUG=true
+                ;;
+            f) FORCE=true
+                ;;
+            h) usage_help
+                exit 0
+                ;;
+            w) WAIT=true
+                ;;
+            *) die_usage "Unknown option."
+        esac
+    done
+
+}
+
+BASEDIR=$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+### Parse options
+getOptions "$@"
+shift $((OPTIND-1))
+ACTION=$1
+shift
+
+case "$ACTION" in
+    "reset")
+        do_reset "$@"
+        ;;
+    "create")
+        do_create "$@"
+        ;;
+    "unbundle")
+        do_unbundle "$@"
+        ;;
+    *)
+        die_usage "Missing or unknown action '$ACTION'"
+        ;;
+esac
