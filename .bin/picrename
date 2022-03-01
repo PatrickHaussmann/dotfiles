@@ -34,6 +34,10 @@ def get_name(file):
     if m:
         return m[1]
 
+    m = re.match(r"(\d{8}_\d{6})", basename)
+    if m:
+        return m[1].replace("_","-")
+
     m = re.match(r"(?:IMG|VID)(\d{8})(\d{6})", basename)
     if m:
         return m[1]+"-"+m[2]
