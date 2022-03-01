@@ -2,4 +2,4 @@
 .install_did_run
 .ssh/*
 .vagrant/
-
+.local/share/*
