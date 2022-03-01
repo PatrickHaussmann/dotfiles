@@ -48,7 +48,7 @@ which bat >/dev/null 2>&1
 [ $? = 0 ] && alias man='batman' && alias cat='bat --style=plain'
 
 which exa >/dev/null 2>&1
-[ $? = 0 ] && alias ls='exa --color=auto' && alias la='exa -lagF --git --color=auto'
+[ $? = 0 ] && alias ls='exa --color=auto' && alias la='ls -lagF --git' && alias laa='ls -lagF'
 
 dir="${HOME}/.bash.d"
 if [[ -d "$dir" && -r "$dir" && -x "$dir" ]]; then
