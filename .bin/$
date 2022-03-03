@@ -6,6 +6,6 @@ set -eu
 
 # Begone, silly errors! Lazy copy + paste forever!! ETCETERA!!!!
 
-echo 'Quit pasting in commands from the internet, you lazy bum.'
-"$@"
+echo 'Quit pasting in commands from the internet, you lazy bum.' >&2
 
+"$@"
