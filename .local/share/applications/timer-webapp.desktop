@@ -1,0 +1,15 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Timer
+GenericName=Timer
+Comment=Timer desktop webapp
+Icon=~/.local/share/applications/timer.png
+Exec=/snap/bin/chromium --app=https://timer.app.5ls.de/
+Terminal=false
+Type=Application
+StartupNotify=true
+MimeType=text/plain;
+Categories=Network;Application;
+Keywords=Timer;webapp;
+X-Ubuntu-Gettext-Domain=Timer
+StartupWMClass=timer.app.5ls.de
