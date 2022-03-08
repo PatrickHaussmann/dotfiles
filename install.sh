@@ -1,35 +1,49 @@
 #!/bin/bash
+set -eu
 
-function check_and_remove {
+SCRIPTPATH="$( cd -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 ; pwd -P )"
+
+
+function safe_rm {
   # check if it is a symlink
-  if [ -h ${HOME}/$1 ]; then
-    rm ${HOME}/$1
+  if [ -h "$1" ]; then
+    rm "$1"
   fi
 
   # check if it is file or directory
-  if [ -f ${HOME}/$1 ] || [ -d ${HOME}/$1 ]; then
-    mv ${HOME}/$1 ${HOME}/$1.orig
+  if [ -f "$1" ] || [ -d "$1" ]; then
+    mv "$1" "$1.orig"
   fi
 }
 
-
-files=$( echo .* vm Vagrantfile | fmt -w 1 | grep -vE '^((\.install_did_run)|(\.git)|(\.gitignore))$' | grep -vE '^[.]{1,2}$' )
-
-
-for file in $files; do
-  if [ -f $file ] || [ -h $file ]; then
-    check_and_remove $file
-    ln -s ${PWD}/$file ${HOME}
+function link {
+  if [ -f "$1" ] || [ -h "$1" ]; then
+	filename=$(basename "$1")
+	new_path="$2/$filename"
+    safe_rm "$new_path"
+    ln -s "$1" "$new_path"
   fi
 
-  if [ -d $file ]; then
-    [ -d ${HOME}/$file ] || mkdir ${HOME}/$file
-    for subfile in $(ls -A $file); do
-      check_and_remove $file/$subfile
-      ln -s ${PWD}/$file/$subfile ${HOME}/$file
+  if [ -d "$1" ]; then
+    folder=$(basename "$1")
+    mkdir -p "$2/$folder"
+    for subfile in $(ls -A "$1"); do
+      new_path="$2/$folder/$subfile"
+      safe_rm "$new_path"
+      ln -s "$1/$subfile" "$new_path"
     done
   fi
+}
+
+files=$( echo .* vm Vagrantfile | fmt -w 1 | grep -vE '^((\.install_did_run)|(\.git)|(\.gitignore)|(\.local))$' | grep -vE '^[.]{1,2}$' )
+
+for file in $files; do
+  link "${PWD}/$file" "${HOME}"
 done
+
+mkdir -p "${HOME}/.local/share/applications"
+link "${PWD}/.local/share/applications" "${HOME}/.local/share/applications"
+
 
 if [ ! -f "${PWD}/.install_did_run" ]; then
   sudo lsof /var/lib/dpkg/lock >/dev/null 2>&1
@@ -55,4 +69,3 @@ echo "
 |  _  |  __/ | | (_) |_|
 |_| |_|\___|_|_|\___/(_)
 "
-
