@@ -3,7 +3,6 @@ set -eu
 
 SCRIPTPATH="$( cd -- "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 ; pwd -P )"
 
-
 function safe_rm {
   # check if it is a symlink
   if [ -h "$1" ]; then
@@ -35,21 +34,21 @@ function link {
   fi
 }
 
-files=$( echo .* vm Vagrantfile | fmt -w 1 | grep -vE '^((\.install_did_run)|(\.git)|(\.gitignore)|(\.local))$' | grep -vE '^[.]{1,2}$' )
+files=$( cd "${SCRIPTPATH}" && echo .* vm Vagrantfile | fmt -w 1 | grep -vE '^((\.install_did_run)|(\.git)|(\.gitignore)|(\.local))$' | grep -vE '^[.]{1,2}$' )
 
 for file in $files; do
-  link "${PWD}/$file" "${HOME}"
+  link "${SCRIPTPATH}/$file" "${HOME}"
 done
 
-mkdir -p "${HOME}/.local/share/applications"
-link "${PWD}/.local/share/applications" "${HOME}/.local/share/applications"
+#mkdir -p "${SCRIPTPATH}/.local/share/applications"
+link "${SCRIPTPATH}/.local/share/applications" "${HOME}/.local/share/"
 
 
-if [ ! -f "${PWD}/.install_did_run" ]; then
+if [ ! -f "${SCRIPTPATH}/.install_did_run" ]; then
   sudo lsof /var/lib/dpkg/lock >/dev/null 2>&1
   [ $? = 0 ] && echo "dpkg/apt lock in use" && exit 1
 
-  touch "${PWD}/.install_did_run"
+  touch "${SCRIPTPATH}/.install_did_run"
   # Update
   sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y
 
