@@ -41,7 +41,7 @@
     autosquash = true
 
 [init]
-    defaultBranch = master
+    defaultBranch = main
 
 [apply]
     # Detect whitespace errors when applying a patch
