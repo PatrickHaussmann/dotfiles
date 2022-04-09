@@ -1,0 +1,37 @@
+#!/bin/bash
+set -eu
+
+DOCKER_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && cd ../vm/docker-dev && pwd )
+
+# check if docker is installed
+which docker >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+	echo docker not installed!!
+	exit 1
+fi
+
+# check if image exists
+docker image inspect dev >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+	docker build "$DOCKER_DIR" -t dev
+fi
+
+# check if network exists
+docker network inspect dev_net >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+	docker network create dev_net --subnet=10.11.0.0/16
+fi
+
+
+# ensure container is running
+if [ ! "$(docker ps -q -f name=dev)" ]; then
+    if [ "$(docker ps -aq -f status=exited -f name=dev)" ]; then
+        # cleanup
+        docker rm dev
+    fi
+    # run container
+	docker run -it -d --name dev -h dev --net dev_net --ip 10.11.0.10 -v ~/.ssh:/home/user/.ssh:ro dev
+fi
+
+docker exec -it dev bash
+#docker attach --sig-proxy=false dev
