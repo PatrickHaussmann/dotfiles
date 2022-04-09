@@ -16,7 +16,6 @@ WORKDIR /home/patrick
 
 ENV PROMPT_RED_HOST=true
 RUN git clone https://github.com/PatrickHaussmann/dotfiles.git ~/dotfiles \
-	&& touch ~/dotfiles/.install_did_run \
 	&& bash ~/dotfiles/install.sh \
 	&& touch ~/.sudo_as_admin_successful
 
