@@ -45,8 +45,11 @@ link "${SCRIPTPATH}/.local/share/applications" "${HOME}/.local/share/"
 
 
 if [ ! -f "${SCRIPTPATH}/.install_did_run" ]; then
+
+  set +e
   sudo lsof /var/lib/dpkg/lock >/dev/null 2>&1
   [ $? = 0 ] && echo "dpkg/apt lock in use" && exit 1
+  set -e
 
   touch "${SCRIPTPATH}/.install_did_run"
   # Update
@@ -58,7 +61,7 @@ if [ ! -f "${SCRIPTPATH}/.install_did_run" ]; then
   # https://github.com/sharkdp/bat/issues/982#issuecomment-923944239
   sudo dpkg-divert --package batcat --add --rename --divert /usr/bin/bat /usr/bin/batcat
 
-  echo -e "\n\n192.168.47.62   vagrant\n" | sudo tee -a /etc/hosts
+  echo -e "\n\n192.168.47.62   vagrant\n10.11.0.10   dev\n" | sudo tee -a /etc/hosts
 fi
 
 echo "
