@@ -95,7 +95,7 @@ if [[ "${USER}" == "root" ]]; then
 fi;
 
 # Highlight the hostname when connected via SSH.
-if [[ "${SSH_TTY}" ]]; then
+if [[ "${SSH_TTY}" ]] || [[ "${PROMPT_RED_HOST}" ]]; then
   hostStyle="${bold}${red}";
 fi;
 
