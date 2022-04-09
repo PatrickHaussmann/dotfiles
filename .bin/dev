@@ -3,6 +3,7 @@ set -eu
 
 DOCKER_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && cd ../vm/docker-dev && pwd )
 
+set +e
 # check if docker is installed
 which docker >/dev/null 2>&1
 if [[ $? != 0 ]]; then
@@ -21,6 +22,7 @@ docker network inspect dev_net >/dev/null 2>&1
 if [[ $? != 0 ]]; then
 	docker network create dev_net --subnet=10.11.0.0/16
 fi
+set -e
 
 
 # ensure container is running

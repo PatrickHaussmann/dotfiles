@@ -56,7 +56,9 @@ if [ ! -f "${SCRIPTPATH}/.install_did_run" ]; then
   sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get full-upgrade -y && sudo apt-get autoremove -y
 
   sudo apt-get install -y curl git htop vim mosh wget bat tmux clang-format python3 xclip
+  set +e
   sudo apt-get install -y exa # not always available
+  set -e
 
   # https://github.com/sharkdp/bat/issues/982#issuecomment-923944239
   sudo dpkg-divert --package batcat --add --rename --divert /usr/bin/bat /usr/bin/batcat
