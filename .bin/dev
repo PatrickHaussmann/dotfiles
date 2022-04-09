@@ -32,7 +32,7 @@ if [ ! "$(docker ps -q -f name=dev)" ]; then
         docker rm dev
     fi
     # run container
-	docker run -it -d --name dev -h dev --net dev_net --ip 10.11.0.10 -v ~/.ssh:/home/user/.ssh:ro dev
+	docker run -it -d --name dev -h dev --net dev_net --ip 10.11.0.10 -v /home/patrick/.ssh:/home/patrick/.ssh:ro dev
 fi
 
 docker exec -it dev bash
