@@ -3,7 +3,7 @@ ARG UID=1000
 ARG GID=1000
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update --quiet && apt-get install -y --quiet ssh git sudo locales \
+RUN apt-get update --quiet && apt-get install -y --quiet ssh git sudo locales net-tools inetutils-ping \
     \
     && sed -i 's/^# *\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen \
     && sed -i 's/^# *\(de_DE.UTF-8 UTF-8\)/\1/' /etc/locale.gen \
@@ -14,7 +14,7 @@ RUN apt-get update --quiet && apt-get install -y --quiet ssh git sudo locales \
     && adduser patrick sudo \
     && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
     \
-    && git clone https://github.com/PatrickHaussmann/dotfiles.git /home/patrick/dotfiles \
+    && git clone https://git.sr.ht/~patrickhaussmann/dotfiles /home/patrick/dotfiles \
 	&& bash /home/patrick/dotfiles/install.sh \
 	&& touch /home/patrick/.sudo_as_admin_successful \
 	\
