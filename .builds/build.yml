@@ -3,6 +3,8 @@ packages:
   - docker
 secrets:
   - a1b281aa-40e6-49d8-9dfc-39240ac3f027
+sources:
+  - https://git.sr.ht/~patrickhaussmann/dotfiles
 tasks:
 - setup: |
     sudo addgroup ${USER} docker
@@ -16,14 +18,6 @@ tasks:
     cd dotfiles/.builds
     docker build -f Dockerfile . -t dev
 
-- build-gui: |
-    cd dotfiles/.builds
-    docker build -f Dockerfile.gui . -t dev:gui
-
 - publish: |
     docker tag dev patrickhaussmann/dev
     docker push patrickhaussmann/dev
-
-- publish-gui: |
-    docker tag dev:gui patrickhaussmann/dev:gui
-    docker push patrickhaussmann/dev:gui
