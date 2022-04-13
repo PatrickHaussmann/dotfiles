@@ -1,0 +1,29 @@
+image: alpine/latest
+packages:
+  - docker
+secrets:
+  - a1b281aa-40e6-49d8-9dfc-39240ac3f027
+tasks:
+- setup: |
+    sudo addgroup ${USER} docker
+    sudo service docker start
+    sleep 10
+
+- login: |
+    cat ~/.docker-hub-personal-access-token | docker login --username patrickhaussmann --password-stdin
+
+- build: |
+    cd dotfiles/.builds
+    docker build -f Dockerfile . -t dev
+
+- build-gui: |
+    cd dotfiles/.builds
+    docker build -f Dockerfile.gui . -t dev:gui
+
+- publish: |
+    docker tag dev patrickhaussmann/dev
+    docker push patrickhaussmann/dev
+
+- publish-gui: |
+    docker tag dev:gui patrickhaussmann/dev:gui
+    docker push patrickhaussmann/dev:gui

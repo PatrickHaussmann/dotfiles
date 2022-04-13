@@ -34,7 +34,7 @@ function link {
   fi
 }
 
-files=$( cd "${SCRIPTPATH}" && echo .* vm Vagrantfile | fmt -w 1 | grep -vE '^((\.install_did_run)|(\.git)|(\.gitignore)|(\.local))$' | grep -vE '^[.]{1,2}$' )
+files=$( cd "${SCRIPTPATH}" && echo .* vm Vagrantfile | fmt -w 1 | grep -vE '^((\.install_did_run)|(\.git)|(\.gitignore)|(\.local)|(\.builds))$' | grep -vE '^[.]{1,2}$' )
 
 for file in $files; do
   link "${SCRIPTPATH}/$file" "${HOME}"
