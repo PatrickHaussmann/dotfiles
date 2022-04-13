@@ -16,7 +16,7 @@ tasks:
 
 - build: |
     cd dotfiles/.builds
-    docker build -f Dockerfile . -t dev
+    docker build . -t dev
 
 - publish: |
     docker tag dev patrickhaussmann/dev
