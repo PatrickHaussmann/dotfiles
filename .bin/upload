@@ -19,3 +19,4 @@ else
     cat | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
 fi
 
+echo
