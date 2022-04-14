@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -e
 
 
 set +e
@@ -21,8 +21,17 @@ set -e
 # ensure container is running
 if [ ! "$(docker ps -q -f name=dev)" ]; then
     # run container
-	docker run -it -d --name dev -h dev --net dev_net --ip 10.11.0.10 -v /home/patrick/.ssh:/home/patrick/.ssh:ro patrickhaussmann/dev
+	docker run -it -d --name dev -h dev --net dev_net --ip 10.11.0.10 -v /home/$USER/.ssh:/home/patrick/.ssh:ro -v /home/$USER:/host patrickhaussmann/dev
 fi
+
+# set working dir to pwd
+if [[ $1 == "-d" ]]; then
+	if [[ $PWD/ = /home/$USER/* ]]; then
+		docker exec -it -w $(pwd | sed "s/home\/$USER/host/g") dev bash
+		exit 0
+	fi
+fi
+
 
 docker exec -it dev bash
 #docker attach --sig-proxy=false dev
