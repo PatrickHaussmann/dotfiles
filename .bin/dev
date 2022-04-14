@@ -1,12 +1,17 @@
 #!/bin/bash
 set -e
 
+# show help
+if [[ $1 == "-h" ]]; then
+	echo -e "Usage:\n $0\n-r rebuild container\n-d set working dir to pwd"
+	exit 0
+fi
 
 set +e
 # check if docker is installed
 which docker >/dev/null 2>&1
 if [[ $? != 0 ]]; then
-	echo docker not installed!!
+	echo "docker not installed!!"
 	exit 1
 fi
 
@@ -18,7 +23,7 @@ fi
 set -e
 
 
-# stop and delete container -> restart
+# stop and delete container
 if [[ $1 == "-r" ]]; then
 	docker rm -f dev
 fi
