@@ -21,7 +21,7 @@ ENV PROMPT_RED_HOST=true
 
 RUN git clone https://git.sr.ht/~patrickhaussmann/dotfiles ~/dotfiles \
 	&& bash ~/dotfiles/install.sh \
-    && rm -rf /var/lib/apt/lists/* && apt-get clean --quiet -y \
+    && sudo rm -rf /var/lib/apt/lists/* && sudo apt-get clean --quiet -y \
 	&& touch ~/.sudo_as_admin_successful
 
 CMD ["bash"]
