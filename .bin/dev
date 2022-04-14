@@ -18,6 +18,12 @@ fi
 set -e
 
 
+# stop and delete container -> restart
+if [[ $1 == "-r" ]]; then
+	docker rm -f dev
+fi
+
+
 # ensure container is running
 if [ ! "$(docker ps -q -f name=dev)" ]; then
     # run container
