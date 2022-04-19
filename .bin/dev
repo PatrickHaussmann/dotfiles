@@ -3,49 +3,56 @@ set -e
 
 # show help
 if [[ $1 == "-h" || "$#" -gt 1 ]]; then
-	echo -e "Usage:\n $0\n-r rebuild container\n-d set working dir to pwd"
-	exit 0
+    echo -e "Usage:\n $0\n-r rebuild container\n-d set working dir to pwd"
+    exit 0
 fi
 
 set +e
 # check if docker is installed
 which docker >/dev/null 2>&1
 if [[ $? != 0 ]]; then
-	echo "docker not installed!!"
-	exit 1
+    echo "docker not installed!!"
+    exit 1
 fi
 
 # check if network exists
 docker network inspect dev_net >/dev/null 2>&1
 if [[ $? != 0 ]]; then
-	set -e
-	docker network create dev_net --subnet=10.11.0.0/16
+    set -e
+    docker network create dev_net --subnet=10.11.0.0/16
 fi
 set -e
 
-
 # stop and delete container
 if [[ $1 == "-r" ]]; then
-	docker rm -f dev
+    docker rm -f dev >/dev/null
 fi
 
-
-# ensure container is running
-if [ ! "$(docker ps -q -f name=dev)" ]; then
-	if [ "$(docker ps -aq -f status=exited -f name=dev)" ]; then
-        # cleanup
-        docker rm dev
-    fi
-    # run container
-	docker run -it -d --name dev -h dev --net dev_net --ip 10.11.0.10 -v /home/$USER/.ssh:/home/patrick/.ssh:ro -v /home/$USER:/host patrickhaussmann/dev
+if [ ! "$(docker ps -aq -f name=dev)" ]; then
+    # container does not exist
+    docker create -it --name dev -h dev --net dev_net --ip 10.11.0.10 -v /home/$USER/.ssh:/home/patrick/.ssh:ro -v /home/$USER:/host patrickhaussmann/dev >/dev/null
 fi
+
+WORKDIR="/home/patrick"
 
 # set working dir to pwd
-if [[ $1 == "-d" ]]; then
-	if [[ $PWD/ = /home/$USER/* ]]; then
-		docker exec -it -w $(pwd | sed "s/home\/$USER/host/g") dev bash
-		exit 0
-	fi
+if [[ $PWD/ = /home/$USER/* && $PWD != /home/$USER ]]; then
+    WORKDIR=$(pwd | sed "s/home\/$USER/host/g")
 fi
 
-docker exec -it dev bash
+# container status: created, restarting, running, removing, paused, exited, dead
+if [ "$(docker ps -aq -f status=created -f name=dev)" ] || [ "$(docker ps -aq -f status=exited -f name=dev)" ]; then
+    #docker start dev -ia
+    docker start dev >/dev/null
+    docker exec -it -w "$WORKDIR" dev bash
+    docker stop dev >/dev/null
+    exit 0
+elif [ "$(docker ps -aq -f status=running -f name=dev)" ]; then
+    echo "dev container is already running"
+    exit 0
+else
+    echo "dev container is in a wierd state"
+    echo
+    docker ps -aq -f name=dev
+    exit 1
+fi
