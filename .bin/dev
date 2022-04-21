@@ -31,6 +31,7 @@ set -e
 # stop and delete container
 if [[ $1 == "-r" ]]; then
     docker rm -f dev >/dev/null
+    docker pull patrickhaussmann/dev
 fi
 
 if [ ! "$(docker ps -aq -f name=dev)" ]; then
