@@ -32,6 +32,7 @@ set -e
 if [[ $1 == "-r" ]]; then
     docker rm -f dev >/dev/null
     docker pull patrickhaussmann/dev
+    echo && echo "Tip: run 'update'"
 fi
 
 if [ ! "$(docker ps -aq -f name=dev)" ]; then
