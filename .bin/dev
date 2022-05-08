@@ -56,6 +56,14 @@ if [ "$(docker ps -aq -f status=created -f name=dev)" ] || [ "$(docker ps -aq -f
     exit 0
 elif [ "$(docker ps -aq -f status=running -f name=dev)" ]; then
     echo "dev container is already running"
+
+	read -p "Attach to running dev container [Y/n]? " -n 1 -r
+	echo
+	if [[ $REPLY = "y" ]] || [[ $REPLY = "Y" ]] || [[ -z $REPLY ]];
+	then
+		docker attach dev
+	fi
+
     exit 0
 else
     echo "dev container is in a wierd state"
