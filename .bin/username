@@ -2,7 +2,7 @@
 set -e
 
 if [ "$1" = "-h" ] ; then
-    echo "Usage:\n $0 <?length> <?rows>"
+    echo "Usage:\n $0 <?length>"
     exit 0
 fi
 
@@ -21,20 +21,9 @@ username() {
 }
 
 length=5
-rows=20
 
 if [ ! -z "$1" ]; then
   length="$1"
 fi
 
-if [ ! -z "$2" ]; then
-  rows="$2"
-fi
-
-i=0
-while [ $i -lt $rows ]
-do
-  printf "%2d: %s\n" "$((i+1))" "$(username)"
-  i=$((i+1))
-done
-
+echo "$(username)"

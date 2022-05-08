@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+if [ "$1" = "-h" ] ; then
+    echo "Usage:\n $0"
+    exit 0
+fi
+
+startDate=$(date -d "1995-01-01" "+%s")
+endDate=$(date -d "2001-01-01" "+%s")
+
+randomDate=$(shuf -i "$startDate-$endDate" -n 1)
+
+date -d "@$randomDate" "+%d.%m.%Y"
