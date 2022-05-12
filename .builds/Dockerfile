@@ -2,10 +2,10 @@ FROM ubuntu
 ARG UID=1000
 ARG GID=1000
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update --quiet && DEBIAN_FRONTEND=noninteractive apt-get install -y --quiet ssh git sudo locales net-tools inetutils-ping man-db \
-	&& ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && DEBIAN_FRONTEND=noninteractive apt-get install -y --quiet tzdata \
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y -q update && DEBIAN_FRONTEND=noninteractive apt-get -y -q install ssh git sudo locales net-tools inetutils-ping man-db \
+	&& ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && DEBIAN_FRONTEND=noninteractive apt-get -y -q install tzdata \
     \
-    && rm -rf /var/lib/apt/lists/* && apt-get clean --quiet -y \
+    && rm -rf /var/lib/apt/lists/* && apt-get -y -q clean \
     \
     && sed -i 's/^# *\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen \
     && sed -i 's/^# *\(de_DE.UTF-8 UTF-8\)/\1/' /etc/locale.gen \
@@ -22,7 +22,7 @@ ENV PROMPT_RED_HOST=true
 
 RUN git clone https://git.sr.ht/~patrickhaussmann/dotfiles ~/dotfiles \
 	&& DEBIAN_FRONTEND=noninteractive bash ~/dotfiles/install.sh \
-    && sudo rm -rf /var/lib/apt/lists/* && sudo apt-get clean --quiet -y \
+    && sudo rm -rf /var/lib/apt/lists/* && sudo apt-get -y -q clean \
 	&& touch ~/.sudo_as_admin_successful
 
 CMD ["bash"]
