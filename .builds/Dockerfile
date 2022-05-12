@@ -4,6 +4,8 @@ ARG GID=1000
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update --quiet && apt-get install -y --quiet ssh git sudo locales net-tools inetutils-ping man-db \
+	&& ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && apt-get install -y --quiet tzdata \
+    \
     && rm -rf /var/lib/apt/lists/* && apt-get clean --quiet -y \
     \
     && sed -i 's/^# *\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen \
