@@ -53,11 +53,11 @@ if [ ! -f "${SCRIPTPATH}/.install_did_run" ]; then
 
   touch "${SCRIPTPATH}/.install_did_run"
   # Update
-  sudo apt-get -y -q update && sudo apt-get -y -q upgrade && sudo apt-get -y -q full-upgrade && sudo apt-get -y -q autoremove
+  sudo apt-get -qq update && sudo apt-get -qq upgrade && sudo apt-get -qq full-upgrade && sudo apt-get -qq autoremove
 
-  sudo apt-get -y -q install curl git htop vim mosh wget bat tmux clang-format python3 xclip
+  sudo apt-get -qq install curl git htop vim mosh wget bat tmux clang-format python3 xclip
   set +e
-  sudo apt-get -y -q install exa # not always available
+  sudo apt-get -qq install exa # not always available
   set -e
 
   # https://github.com/sharkdp/bat/issues/982#issuecomment-923944239
