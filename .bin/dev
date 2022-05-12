@@ -1,5 +1,5 @@
-##!/bin/bash
-set -e
+#!/bin/bash
+set -ef -o pipefail
 
 # show help
 if [[ $1 == "-h" || "$#" -gt 1 ]]; then

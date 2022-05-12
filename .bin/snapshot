@@ -1,8 +1,8 @@
 #!/bin/bash
-set -e
+set -euf -o pipefail
 
 if [ $# -lt 2 ] || [ $# -gt 3 ] || [ "$1" = "-h" ] ; then
-    echo "Incremental backups using rsync and hardlinks\n\nUsage:\n $0 [OPTIONS] <source folder> <snapshot folder>\n\n -c: stop after copy\n -r: resume even if folder \"CURRENT\" is found"
+    echo "Incremental backups using rsync and hardlinks\n\nUsage:\n $(basename $BASH_SOURCE) [OPTIONS] <source folder> <snapshot folder>\n\n -c: stop after copy\n -r: resume even if folder \"CURRENT\" is found"
     exit 0
 fi
 
@@ -63,4 +63,3 @@ BACKUP_PATH="${SNAPSHOT_DIR}/${DATETIME}"
 mv "${CURRENT}" "${BACKUP_PATH}"
 
 ln -s "${DATETIME}" "${LATEST}"
-

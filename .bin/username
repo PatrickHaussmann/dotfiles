@@ -1,8 +1,8 @@
 #!/bin/bash
-set -e
+set -ef -o pipefail
 
 if [ "$1" = "-h" ] ; then
-    echo "Usage:\n $0 <?length>"
+    echo "Usage:\n $(basename $BASH_SOURCE) <?number of blocks>"
     exit 0
 fi
 

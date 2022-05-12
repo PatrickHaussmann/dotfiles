@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eu
+set -euf -o pipefail
 
 # Ever pasted "$ somecommand" into the terminal and gotten this error?
 # -bash: $: command not found

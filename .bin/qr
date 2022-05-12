@@ -1,8 +1,8 @@
 #!/bin/bash
-set -eu
+set -ef -o pipefail
 
 if [ "$1" = "-h" ] ; then
-    echo "Usage:\n $0 <url>\n ... | $0"
+    echo "Usage:\n $(basename $BASH_SOURCE) <url>\n ... | $(basename $BASH_SOURCE)"
     exit 0
 fi
 
@@ -13,4 +13,3 @@ else
     # use arguments as input
     echo $* | curl -F-=\<- qrenco.de
 fi
-

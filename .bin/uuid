@@ -1,4 +1,4 @@
 #!/bin/bash
-set -eu
+set -euf -o pipefail
 
 cat /proc/sys/kernel/random/uuid

@@ -1,8 +1,8 @@
 #!/bin/bash
-set -eu
+set -euf -o pipefail
 
 if [ $# -eq 0 ] || [ "$1" = "-h" ] ; then
-    echo "Usage:\n $0 <file>\n ... | $0 <file_name>"
+    echo "Usage:\n $(basename $BASH_SOURCE) <file>\n ... | $(basename $BASH_SOURCE) <file_name>"
     exit 0
 fi
 
@@ -15,7 +15,7 @@ if [ -f "$1" ] || [ -h "$1" ] ; then
     file_name=$(basename "$1")
     cat "$1" | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
 else
-    file_name=$1
+    file_name="$1"
     cat | curl --progress-bar --upload-file "-" "https://transfer.sh/$file_name" | tee /dev/null
 fi
 

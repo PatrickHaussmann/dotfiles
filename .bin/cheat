@@ -1,10 +1,9 @@
 #!/bin/bash
-set -eu
+set -euf -o pipefail
 
 if [ $# -eq 0 ] || [ "$1" = "-h" ] ; then
-    echo -e "Usage:\n$0 TOPIC       show cheat sheet on the TOPIC\n$0 TOPIC/SUB   show cheat sheet on the SUB topic in TOPIC\n$0 ~KEYWORD    search cheat sheets for KEYWORD"
+    echo -e "Usage:\n$(basename $BASH_SOURCE) TOPIC       show cheat sheet on the TOPIC\n$(basename $BASH_SOURCE) TOPIC/SUB   show cheat sheet on the SUB topic in TOPIC\n$(basename $BASH_SOURCE) ~KEYWORD    search cheat sheets for KEYWORD"
     exit 0
 fi
 
 curl "https://cheat.sh/$*"
-
