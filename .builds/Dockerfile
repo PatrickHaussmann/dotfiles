@@ -2,9 +2,8 @@ FROM ubuntu
 ARG UID=1000
 ARG GID=1000
 
-ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update --quiet && apt-get install -y --quiet ssh git sudo locales net-tools inetutils-ping man-db \
-	&& ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && apt-get install -y --quiet tzdata \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update --quiet && DEBIAN_FRONTEND=noninteractive apt-get install -y --quiet ssh git sudo locales net-tools inetutils-ping man-db \
+	&& ln -fs /usr/share/zoneinfo/Europe/Berlin /etc/localtime && DEBIAN_FRONTEND=noninteractive apt-get install -y --quiet tzdata \
     \
     && rm -rf /var/lib/apt/lists/* && apt-get clean --quiet -y \
     \
@@ -22,7 +21,7 @@ WORKDIR /home/patrick
 ENV PROMPT_RED_HOST=true
 
 RUN git clone https://git.sr.ht/~patrickhaussmann/dotfiles ~/dotfiles \
-	&& bash ~/dotfiles/install.sh \
+	&& DEBIAN_FRONTEND=noninteractive bash ~/dotfiles/install.sh \
     && sudo rm -rf /var/lib/apt/lists/* && sudo apt-get clean --quiet -y \
 	&& touch ~/.sudo_as_admin_successful
 
