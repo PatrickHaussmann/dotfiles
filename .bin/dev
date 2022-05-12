@@ -2,8 +2,8 @@
 set -ef -o pipefail
 
 # show help
-if [[ $1 == "-h" || "$#" -gt 1 ]]; then
-    echo -e "Usage:\n $0\n-r rebuild container\n-d set working dir to pwd"
+if [[ $1 == "-h" || $1 == "h" || $1 == "help" ]] || [[ -n $1 && $1 != "r" && $1 != "rebuild" && $1 != "s" && $1 != "stop" && $1 != "e" && $1 != "exec" ]]; then
+    echo -e "Usage:\n$(basename $BASH_SOURCE) <?command>\nr|rebuild: rebuild container\ns|stop: force stop container\ne|exec: exec command in container"
     exit 0
 fi
 
@@ -19,55 +19,59 @@ if [[ $? != 0 ]]; then
     echo "docker not installed!!"
     exit 1
 fi
-
-# check if network exists
-docker network inspect dev_net >/dev/null 2>&1
-if [[ $? != 0 ]]; then
-    set -e
-    docker network create dev_net --subnet=10.11.0.0/16
-fi
 set -e
 
-# stop and delete container
-if [[ $1 == "-r" ]]; then
+# delete container and update image
+if [[ $1 == "r" || $1 == "rebuild" ]]; then
     docker rm -f dev >/dev/null
     docker pull patrickhaussmann/dev
     echo && echo "Tip: run 'update'"
+    exit 0
+fi
+
+# force stop container
+if [[ $1 == "s" || $1 == "stop" ]]; then
+    docker stop -t 0 dev >/dev/null
+    exit 0
 fi
 
 if [ ! "$(docker ps -aq -f name=dev)" ]; then
     # container does not exist
-    docker create -it --name dev -h dev --net dev_net --ip 10.11.0.10 -v /home/$USER/.ssh:/home/patrick/.ssh:ro -v /home/$USER:/host patrickhaussmann/dev >/dev/null
+    docker create -it --name dev -h dev --net host -v /home/$USER/.ssh:/home/patrick/.ssh:ro -v /home/$USER:/host patrickhaussmann/dev >/dev/null
 fi
 
 WORKDIR="/home/patrick"
-
 # set working dir to pwd
 if [[ $PWD/ = /home/$USER/* && $PWD != /home/$USER ]]; then
     WORKDIR=$(pwd | sed "s/home\/$USER/host/g")
 fi
 
-# container status: created, restarting, running, removing, paused, exited, dead
-if [ "$(docker ps -aq -f status=created -f name=dev)" ] || [ "$(docker ps -aq -f status=exited -f name=dev)" ]; then
-    #docker start dev -ia
-    docker start dev >/dev/null
-    docker exec -it -w "$WORKDIR" dev bash
-    docker stop dev >/dev/null
-    exit 0
-elif [ "$(docker ps -aq -f status=running -f name=dev)" ]; then
-    echo "dev container is already running"
-
-	read -p "Attach to running dev container [Y/n]? " -n 1 -r
-	echo
-	if [[ $REPLY = "y" ]] || [[ $REPLY = "Y" ]] || [[ -z $REPLY ]];
-	then
-		docker attach dev
-	fi
-
-    exit 0
-else
-    echo "dev container is in a wierd state"
-    echo
+# ensure container is running
+docker start dev >/dev/null
+if [ ! "$(docker ps -aq -f status=running -f name=dev)" ]; then
+    echo "dev container is in a wierd state" && echo
     docker ps -aq -f name=dev
     exit 1
 fi
+
+if [[ $1 == "e" || $1 == "exec" ]]; then
+    shift
+    docker exec -it -w "$WORKDIR" dev bash -ic "$*"
+else
+    docker exec -it -w "$WORKDIR" dev bash
+fi
+
+processes=$(docker exec dev sh -c 'echo $(($(ps -e --no-headers | wc -l)-5))') # number of processes minus sh, ps, wc, initial bash, newline of ps
+
+if [[ $processes != 0 ]]; then
+    echo $processes processes are still running
+
+    read -p "Do you want to force stop the container? [y/N] " -n 1 -r
+    echo
+    if [[ $REPLY = "n" || $REPLY = "N" || -z $REPLY ]];
+    then
+        exit 0
+    fi
+fi
+
+docker stop -t 0 dev >/dev/null
