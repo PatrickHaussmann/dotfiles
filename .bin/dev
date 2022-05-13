@@ -8,7 +8,7 @@ if [[ $1 == "-h" || $1 == "h" || $1 == "help" ]] || [[ -n $1 && $1 != "r" && $1 
 fi
 
 if grep -sq 'docker\|lxc' /proc/1/cgroup; then
-   echo "process is already in a docker container"
+   echo "process is already in a docker container" >&2
    exit 1
 fi
 
@@ -16,7 +16,7 @@ set +e
 # check if docker is installed
 which docker >/dev/null 2>&1
 if [[ $? != 0 ]]; then
-    echo "docker not installed!!"
+    echo "docker not installed!!" >&2
     exit 1
 fi
 set -e
@@ -48,7 +48,7 @@ fi
 # ensure container is running
 docker start dev >/dev/null
 if [ ! "$(docker ps -aq -f status=running -f name=dev)" ]; then
-    echo "dev container is in a wierd state" && echo
+    echo "dev container is in a wierd state" >&2 && echo >&2
     docker ps -aq -f name=dev
     exit 1
 fi
@@ -69,10 +69,10 @@ fi
 processes=$(docker exec dev sh -c 'echo $(($(ps -e --no-headers | wc -l)-5))') # number of processes minus sh, ps, wc, initial bash, newline of ps
 
 if [[ $processes != 0 ]]; then
-    echo $processes processes are still running
-
-    read -p "Do you want to force stop the container? [y/N] " -n 1 -r
-    echo
+    # output to stderr because maybe stdin is redirected or used in a pipe
+    echo -n "Do you want to force stop all ($processes) running processes? [y/N] " >&2
+    read -n 1 -r
+    echo >&2
     if [[ $REPLY = "n" || $REPLY = "N" || -z $REPLY ]];
     then
         exit 0
