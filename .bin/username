@@ -1,5 +1,6 @@
 #!/bin/bash
-set -ef -o pipefail
+set -euf -o pipefail
+set +u
 
 if [ "$1" = "-h" ] ; then
     echo "Usage:\n $(basename $BASH_SOURCE) <?number of blocks>"

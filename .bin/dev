@@ -1,5 +1,6 @@
 #!/bin/bash
-set -ef -o pipefail
+set -euf -o pipefail
+set +u
 
 # show help
 if [[ $1 == "-h" || $1 == "h" || $1 == "help" ]] || [[ -n $1 && $1 != "r" && $1 != "rebuild" && $1 != "s" && $1 != "stop" && $1 != "e" && $1 != "exec" ]]; then
