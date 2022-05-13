@@ -21,6 +21,12 @@ if [[ $? != 0 ]]; then
 fi
 set -e
 
+# force stop container
+if [[ $1 == "s" || $1 == "stop" ]]; then
+    docker stop -t 0 dev >/dev/null
+    exit 0
+fi
+
 # delete container and update image
 if [[ $1 == "r" || $1 == "rebuild" ]]; then
     docker rm -f dev >/dev/null
@@ -28,21 +34,9 @@ if [[ $1 == "r" || $1 == "rebuild" ]]; then
     # continue to run update
 fi
 
-# force stop container
-if [[ $1 == "s" || $1 == "stop" ]]; then
-    docker stop -t 0 dev >/dev/null
-    exit 0
-fi
-
 if [ ! "$(docker ps -aq -f name=dev)" ]; then
     # container does not exist
     docker create -it --name dev -h dev --net host -v /home/$USER/.ssh:/home/patrick/.ssh:ro -v /home/$USER:/host patrickhaussmann/dev >/dev/null
-fi
-
-WORKDIR="/home/patrick"
-# set working dir to pwd
-if [[ $PWD/ = /home/$USER/* && $PWD != /home/$USER ]]; then
-    WORKDIR=$(pwd | sed "s/home\/$USER/host/g")
 fi
 
 # ensure container is running
@@ -57,6 +51,12 @@ fi
 if [[ $1 == "r" || $1 == "rebuild" ]]; then
     docker exec -it dev bash -ic "update"
     exit 0
+fi
+
+WORKDIR="/home/patrick"
+# set working dir to pwd
+if [[ $PWD/ = /home/$USER/* && $PWD != /home/$USER ]]; then
+    WORKDIR=$(pwd | sed "s/home\/$USER/host/g")
 fi
 
 if [[ $1 == "e" || $1 == "exec" ]]; then
