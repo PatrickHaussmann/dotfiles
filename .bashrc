@@ -19,7 +19,7 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ~="cd ~"
 alias -- -="cd -"
-alias x='exit'
+alias x='exit 2>/dev/null'
 
 alias update='sudo apt-get -y -q update && sudo apt-get -y -q upgrade && sudo apt-get -y -q full-upgrade && sudo apt-get -y -q autoremove'
 alias s='sudo'
