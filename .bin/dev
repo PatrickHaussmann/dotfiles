@@ -25,8 +25,7 @@ set -e
 if [[ $1 == "r" || $1 == "rebuild" ]]; then
     docker rm -f dev >/dev/null
     docker pull patrickhaussmann/dev
-    echo && echo "Tip: run 'update'"
-    exit 0
+    # continue to run update
 fi
 
 # force stop container
@@ -52,6 +51,12 @@ if [ ! "$(docker ps -aq -f status=running -f name=dev)" ]; then
     echo "dev container is in a wierd state" && echo
     docker ps -aq -f name=dev
     exit 1
+fi
+
+# run update if container was rebuild
+if [[ $1 == "r" || $1 == "rebuild" ]]; then
+    docker exec -it dev bash -ic "update"
+    exit 0
 fi
 
 if [[ $1 == "e" || $1 == "exec" ]]; then
