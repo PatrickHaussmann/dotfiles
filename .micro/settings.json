@@ -1,0 +1,7 @@
+{
+    "colorcolumn": 80,
+    "diffgutter": true,
+    "indentchar": "⇥",
+    "tabmovement": true,
+    "tabstospaces": true
+}
