@@ -59,11 +59,10 @@ fi
 
 export PATH="$HOME/.bin:$HOME/.bin/$(uname -m):$HOME/.local/bin:$PATH"
 export XDG_DATA_DIRS="$HOME/.local/share/applications:$XDG_DATA_DIRS"
-#export VISUAL=vim
 export VISUAL=micro
 export EDITOR="$VISUAL"
 export LC_ALL="en_US.UTF-8"
-
+export MICRO_CONFIG_HOME="$HOME/.micro"
 
 PROMPT_COMMAND='history -a'
 
