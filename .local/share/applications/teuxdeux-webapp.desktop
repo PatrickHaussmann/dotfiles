@@ -1,0 +1,14 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=TeuxDeux
+GenericName=TeuxDeux
+Comment=TeuxDeux desktop webapp
+Exec=/snap/bin/chromium --app=https://teuxdeux.com/home
+Terminal=false
+Type=Application
+StartupNotify=true
+MimeType=text/plain;
+Categories=Network;Application;
+Keywords=TeuxDeux;webapp;
+X-Ubuntu-Gettext-Domain=TeuxDeux
+StartupWMClass=teuxdeux.com

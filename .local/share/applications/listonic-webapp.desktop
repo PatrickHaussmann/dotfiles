@@ -1,0 +1,14 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Name=Listonic
+GenericName=Listonic
+Comment=Listonic desktop webapp
+Exec=/snap/bin/chromium --app=https://app.listonic.com/lists
+Terminal=false
+Type=Application
+StartupNotify=true
+MimeType=text/plain;
+Categories=Network;Application;
+Keywords=Listonic;webapp;
+X-Ubuntu-Gettext-Domain=Listonic
+StartupWMClass=app.listonic.com
