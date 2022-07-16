@@ -17,8 +17,8 @@ function safe_rm {
 
 function link {
   if [ -f "$1" ] || [ -h "$1" ]; then
-	filename=$(basename "$1")
-	new_path="$2/$filename"
+  filename=$(basename "$1")
+  new_path="$2/$filename"
     safe_rm "$new_path"
     ln -s "$1" "$new_path"
   fi
