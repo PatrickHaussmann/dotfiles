@@ -15,8 +15,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -qq update && DEBIAN_FRONTEND=noninte
     && groupadd -g $GID $USERNAME \
     && useradd -m -u $UID -g $GID -s /bin/bash $USERNAME \
     && adduser $USERNAME sudo \
-    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers \
-    && echo -e '\n127.0.1.1 dev' >> /etc/hosts
+    && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER $USERNAME
 WORKDIR /home/$USERNAME
