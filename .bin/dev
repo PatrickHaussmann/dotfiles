@@ -44,7 +44,7 @@ fi
 docker start dev >/dev/null
 if [ ! "$(docker ps -aq -f status=running -f name=dev)" ]; then
     echo "dev container is in a wierd state" >&2 && echo >&2
-    docker ps -aq -f name=dev
+    docker ps -aq -f name=dev >&2
     exit 1
 fi
 
