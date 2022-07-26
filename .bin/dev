@@ -56,7 +56,7 @@ fi
 
 WORKDIR="/home/patrick"
 # set working dir to pwd
-if [[ $PWD/ = /home/$USER/* && $PWD != /home/$USER ]]; then
+if [[ $PWD/ = /home/$USER/* && $PWD != /home/$USER && $(stat -c "%d" "$PWD") == $(stat -c "%d" /home/$USER) ]]; then
     WORKDIR=$(pwd | sed "s/home\/$USER/host/g")
 fi
 
