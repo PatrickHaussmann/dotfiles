@@ -107,6 +107,19 @@ prompt_status() {
   fi
 }
 
+sps() {
+	# from https://askubuntu.com/a/1355437
+    current_path="${PWD/#$HOME/'~'}"
+    if [ "$current_path" = "~" ]; then
+       echo "$current_path"
+    else
+       path_parent="${current_path%\/*}"
+       path_parent_short=$(echo "$path_parent" | sed -r 's|/(..)[^/]*|/\1|g')
+       directory="${current_path##*\/}"
+       echo "$path_parent_short/$directory"
+    fi
+}	
+
 
 export -f prompt_git
 
@@ -116,7 +129,7 @@ PS1+="\[${userStyle}\]\u"; # username
 PS1+="\[${white}\]@";
 PS1+="\[${hostStyle}\]\h\[${reset}\]"; # host
 PS1+="\[${white}\]:";
-PS1+="\[${bold}${green}\]\w\[${reset}\]"; # working directory
+PS1+="\[${bold}${green}\]\$(sps)\[${reset}\]"; # working directory
 # Git repository details with 1 second timeout (for slow networks or filesystems)
 PS1+="\$(timeout 1 bash -c 'prompt_git \"\[${violet}\]\" \"\[${blue}\]\"')"; 
 PS1+="\[${white}\]\$\[${reset}\] "; # `$` (and reset color)
@@ -126,5 +139,3 @@ PS2="\[${yellow}\]→ \[${reset}\]";
 export PS2;
 
 # End of Prompt
-
-
