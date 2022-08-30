@@ -114,7 +114,7 @@ sps() {
        echo "$current_path"
     else
        path_parent="${current_path%\/*}"
-       path_parent_short=$(echo "$path_parent" | sed -r 's|/(..)[^/]*|/\1|g')
+       path_parent_short=$(echo "$path_parent" | sed -r 's|/([^/]{2})[^/]{2,}|/\1|g')
        directory="${current_path##*\/}"
        echo "$path_parent_short/$directory"
     fi
