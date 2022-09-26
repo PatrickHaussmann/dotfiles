@@ -27,7 +27,7 @@ alias sai='sudo apt-get -q install'
 alias sap='sudo apt-get -q purge'
 alias mkcd='_(){ mkdir "$1"; cd "$1"; }; _'
 alias du2='_(){ du -ach --max-depth=1 "${1:-.}" | sort -h ; }; _'
-alias cp2='rsync -aPuh --info=progress2'
+alias cp2='rsync -aPh --info=progress2 --stats' # --info=name0
 alias fhere='find . -name'
 alias wget='wget -c'
 alias myip='curl -s https://api64.ipify.org; echo'
