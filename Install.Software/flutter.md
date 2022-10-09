@@ -65,4 +65,4 @@ flutter devices
 
 # VS Code
 
-[Instructions on flutter.dev](https://docs.flutter.dev/get-started/test-drive?tab=vscode)
+[Instructions on flutter.dev](https://docs.flutter.dev/get-started/editor?tab=vscode)
