@@ -48,6 +48,7 @@ Install Chromium with snap
 echo -e 'export CHROME_EXECUTABLE=/snap/bin/chromium\nexport ANDROID_HOME=$HOME/Android/Sdk\nexport JAVA_HOME=$HOME/android-studio/jre\nexport PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools' > ~/.bash.d/flutter.sh
 . ~/.bash.d/flutter.sh
 ```
+
 ## Linux
 
 ```sh
@@ -61,3 +62,7 @@ flutter config --enable-linux-desktop
 flutter doctor -v
 flutter devices
 ```
+
+# VS Code
+
+[Instructions on flutter.dev](https://docs.flutter.dev/get-started/test-drive?tab=vscode)
