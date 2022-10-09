@@ -65,4 +65,4 @@ flutter devices
 
 # VS Code
 
-[Instructions on flutter.dev](https://docs.flutter.dev/get-started/editor?tab=vscode)
+Install extension "[Dart-Code.flutter](https://marketplace.visualstudio.com/items?itemName=Dart-Code.flutter)"
