@@ -30,6 +30,8 @@ flutter emulators --create flutter_emulator
 flutter emulators --launch flutter_emulator
 ```
 
+Boot the emulator
+
 ### Accept licenses
 
 ```sh
