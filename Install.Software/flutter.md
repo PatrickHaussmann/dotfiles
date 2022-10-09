@@ -13,17 +13,18 @@ dart --disable-analytics
 
 ## Android Studio
 
-[Install](https://developer.android.com/studio)
+[Install](https://developer.android.com/studio) as tar in folder `~/android-studio/`
 
-Check SDK Manager to install:
-- Android SDK (newest)
-- Android SDK Command-line Tools
-- Android SDK Build-Tools
+Create sample Project for Android Studio to auto download most of the dependencies.
 
+Open Tools > SDK Manager: 
+- SDK Tools: install Build-Tools, Command-line Tools, Emulator, Platform-Tools
+- SDK Platforms: install latest version
+    - Select "Show Package Details" -> install everything for the latest SDK Platforms
 
 ```sh
-flutter config --android-sdk /home/patrick/Android/Sdk/
-flutter config --android-studio-dir /usr/local/android-studio/
+flutter config --android-sdk ~/Android/Sdk/
+flutter config --android-studio-dir ~/android-studio/
 
 flutter emulators --create flutter_emulator
 flutter emulators --launch flutter_emulator
@@ -37,8 +38,12 @@ flutter doctor --android-licenses
 
 ## Web/Chrome
 
+Install Chromium with snap
+
+## Environment variables
+
 ```sh
-echo -e 'export CHROME_EXECUTABLE=/snap/bin/chromium\nexport ANDROID_HOME=$HOME/Android/Sdk\nexport PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin\nexport PATH="$PATH":$ANDROID_HOME/platform-tools' > ~/.bash.d/flutter.sh
+echo -e 'export CHROME_EXECUTABLE=/snap/bin/chromium\nexport ANDROID_HOME=$HOME/Android/Sdk\nexport JAVA_HOME=$HOME/android-studio/jre\nexport PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools' > ~/.bash.d/flutter.sh
 . ~/.bash.d/flutter.sh
 ```
 ## Linux
@@ -52,4 +57,5 @@ flutter config --enable-linux-desktop
 
 ```sh
 flutter doctor -v
+flutter devices
 ```
